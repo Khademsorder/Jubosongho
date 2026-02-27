@@ -1,52 +1,50 @@
 /**
  * misconceptions-module.js
  * Handles loading and displaying misconceptions from misconceptions.json
- * Fully synced with JSON structure: categories, questions, trust_rating, audio_url, madhhab
- * Uses global AudioManager for audio playback and AIEngine for expand/verify (if available)
+ * Adapted to use native SpeechSynthesis and Global AIEngine
  */
 
 const MisconceptionsModule = (function() {
-  // Private variables
   let data = null;
   let currentCategory = null;
   let currentQuestion = null;
 
-  // Cache DOM elements
   const mainContainer = document.getElementById('misconceptionsContainer');
-  const categoryGrid = document.getElementById('categoryGrid');
-  const questionList = document.getElementById('questionList');
-  const detailView = document.getElementById('detailView');
+  let categoryGrid, questionList, detailView;
 
-  // Initialize – create containers if they don't exist
   function ensureContainers() {
-    if (!mainContainer) {
-      console.error("MisconceptionsModule: #misconceptionsContainer not found");
-      return false;
+    if (!mainContainer) return false;
+    
+    if (!document.getElementById('catGrid-mc')) {
+      categoryGrid = document.createElement('div');
+      categoryGrid.id = 'catGrid-mc';
+      categoryGrid.className = 'grid';
+      mainContainer.appendChild(categoryGrid);
+    } else {
+      categoryGrid = document.getElementById('catGrid-mc');
     }
-    if (!categoryGrid) {
-      const grid = document.createElement('div');
-      grid.id = 'categoryGrid';
-      grid.className = 'grid'; // reuse app's grid style
-      mainContainer.appendChild(grid);
+    
+    if (!document.getElementById('qList-mc')) {
+      questionList = document.createElement('div');
+      questionList.id = 'qList-mc';
+      questionList.style.display = 'none';
+      questionList.className = 'grid';
+      mainContainer.appendChild(questionList);
+    } else {
+      questionList = document.getElementById('qList-mc');
     }
-    if (!questionList) {
-      const list = document.createElement('div');
-      list.id = 'questionList';
-      list.style.display = 'none';
-      list.className = 'grid'; // reuse grid
-      mainContainer.appendChild(list);
-    }
-    if (!detailView) {
-      const detail = document.createElement('div');
-      detail.id = 'detailView';
-      detail.style.display = 'none';
-      detail.className = 'magazine-content'; // reuse magazine style
-      mainContainer.appendChild(detail);
+    
+    if (!document.getElementById('detailView-mc')) {
+      detailView = document.createElement('div');
+      detailView.id = 'detailView-mc';
+      detailView.style.display = 'none';
+      mainContainer.appendChild(detailView);
+    } else {
+      detailView = document.getElementById('detailView-mc');
     }
     return true;
   }
 
-  // Load data from misconceptions.json
   async function loadData() {
     if (data) return data;
     try {
@@ -59,26 +57,21 @@ const MisconceptionsModule = (function() {
     }
   }
 
-  // Render category cards
   async function renderCategories() {
     if (!ensureContainers()) return;
     if (!data) await loadData();
     if (!data || !data.categories) {
-      categoryGrid.innerHTML = '<div class="error">ডেটা লোড হয়নি</div>';
+      categoryGrid.innerHTML = '<div class="error-msg">ডেটা লোড হয়নি</div>';
       return;
     }
 
     let html = '';
     data.categories.forEach(cat => {
       html += `
-        <div class="category-card" data-cat-id="${cat.id}" style="border-left: 5px solid ${cat.color}; background: var(--bg-surface); border-radius: 16px; padding: 16px; cursor: pointer; transition: all 0.3s; box-shadow: var(--shadow-sm);" onclick="MisconceptionsModule.showCategory('${cat.id}')">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 32px;">${cat.icon}</span>
-            <div>
-              <h3 style="margin: 0; color: var(--text-primary);">${cat.name}</h3>
-              <span style="font-size: 13px; color: var(--text-secondary);">${cat.questions.length} টি প্রশ্ন</span>
-            </div>
-          </div>
+        <div class="q-card" style="border-left: 5px solid ${cat.color};" onclick="MisconceptionsModule.showCategory('${cat.id}')">
+          <span style="font-size: 36px; margin-bottom: 8px; display:block;">${cat.icon}</span>
+          <h3 style="margin: 0; color: var(--text-primary); font-size:16px;">${cat.name}</h3>
+          <span style="font-size: 13px; color: var(--text-secondary);">${cat.questions.length} টি বিষয়</span>
         </div>
       `;
     });
@@ -88,7 +81,6 @@ const MisconceptionsModule = (function() {
     detailView.style.display = 'none';
   }
 
-  // Show questions of a category
   async function showCategory(catId) {
     if (!data) await loadData();
     const cat = data.categories.find(c => c.id === catId);
@@ -99,14 +91,19 @@ const MisconceptionsModule = (function() {
     questionList.style.display = 'grid';
     detailView.style.display = 'none';
 
-    let html = '';
+    let html = `
+      <div style="grid-column: 1 / -1; margin-bottom: 12px; display:flex; align-items:center; gap:12px;">
+        <button class="icon-btn" onclick="MisconceptionsModule.backToCategories()" style="background:var(--bg-surface); box-shadow:var(--shadow-sm);"><span class="material-symbols-rounded">arrow_back</span></button>
+        <h2 style="color:${cat.color}; margin:0;">${cat.name}</h2>
+      </div>
+    `;
+    
     cat.questions.forEach(q => {
       html += `
-        <div class="question-card" data-qid="${q.id}" style="background: var(--bg-surface); border-radius: 16px; padding: 16px; border-left: 4px solid ${cat.color}; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform 0.2s;" onclick="MisconceptionsModule.showQuestion('${q.id}')">
+        <div class="q-card" style="border-left: 4px solid ${cat.color}; padding:16px; text-align:left; display:block;" onclick="MisconceptionsModule.showQuestion('${q.id}')">
           <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">${q.q}</div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span class="trust-badge" style="background: ${getTrustColor(q.trust_rating)}; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px;">★ ${q.trust_rating}/10</span>
-            ${q.audio_url ? '<span class="material-symbols-rounded" style="color: var(--accent-primary);">volume_up</span>' : ''}
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top:12px;">
+            <span style="background: ${getTrustColor(q.trust_rating)}; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight:bold;">★ ${q.trust_rating}/10</span>
           </div>
         </div>
       `;
@@ -114,14 +111,12 @@ const MisconceptionsModule = (function() {
     questionList.innerHTML = html;
   }
 
-  // Helper to get color based on trust rating
   function getTrustColor(rating) {
-    if (rating >= 9) return '#10b981'; // green
-    if (rating >= 7) return '#f59e0b'; // orange
-    return '#ef4444'; // red
+    if (rating >= 9) return '#10b981';
+    if (rating >= 7) return '#f59e0b';
+    return '#ef4444';
   }
 
-  // Show detailed answer for a question
   async function showQuestion(qid) {
     if (!currentCategory) return;
     const q = currentCategory.questions.find(q => q.id === qid);
@@ -131,28 +126,22 @@ const MisconceptionsModule = (function() {
     questionList.style.display = 'none';
     detailView.style.display = 'block';
 
-    // Build madhab selector HTML if madhab exists
     let madhabHtml = '';
     if (q.madhhab) {
-      if (Array.isArray(q.madhhab)) {
-        madhabHtml = `<div class="madhhab-info" style="margin: 16px 0; padding: 12px; background: var(--bg-main); border-radius: 12px;">সকল মাযহাবে প্রযোজ্য: ${q.madhhab.join(', ')}</div>`;
-      } else if (typeof q.madhhab === 'object') {
-        let options = '<option value="">মাযহাব নির্বাচন করুন</option>';
-        for (let mad in q.madhhab) {
-          options += `<option value="${mad}">${mad}</option>`;
-        }
-        madhabHtml = `
-          <div class="madhhab-selector" style="margin: 16px 0;">
-            <select id="madhabSelect" onchange="MisconceptionsModule.showMadhabNote(this.value)" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary);">
-              ${options}
-            </select>
-            <div id="madhabNote" style="margin-top: 12px; padding: 12px; background: var(--bg-main); border-radius: 8px; display: none;"></div>
-          </div>
-        `;
+      let options = '<option value="">মাযহাব নির্বাচন করুন</option>';
+      for (let mad in q.madhhab) {
+        options += `<option value="${mad}">${mad}</option>`;
       }
+      madhabHtml = `
+        <div style="margin: 16px 0;">
+          <select id="madhabSelect" onchange="MisconceptionsModule.showMadhabNote(this.value)" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-family:inherit;">
+            ${options}
+          </select>
+          <div id="madhabNote" style="margin-top: 12px; padding: 12px; background: var(--bg-main); border-radius: 8px; display: none; font-size:14px; border-left:3px solid var(--accent-primary);"></div>
+        </div>
+      `;
     }
 
-    // Build answer HTML with markdown-like formatting (bold, etc.)
     const answerHtml = q.a.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
 
     detailView.innerHTML = `
@@ -161,33 +150,28 @@ const MisconceptionsModule = (function() {
           <span class="material-symbols-rounded">arrow_back</span> প্রশ্ন তালিকায় ফিরুন
         </button>
       </div>
-      <div class="mag-section" style="border-left-color: ${currentCategory.color};">
-        <div class="mag-header">
-          <span class="material-symbols-rounded">help</span>
+      <div class="mag-section" style="border-left-color: ${currentCategory.color}; box-shadow:var(--shadow-md);">
+        <div class="mag-header" style="color:var(--text-primary);">
+          <span class="material-symbols-rounded" style="color:${currentCategory.color};">help</span>
           ${q.q}
         </div>
         <div class="mag-body">
-          ${answerHtml}
-          <div style="margin-top: 16px; font-size: 14px; color: var(--text-secondary);">
+          <div style="font-size:16px; line-height:1.7;">${answerHtml}</div>
+          <div style="margin-top: 20px; font-size: 14px; color: var(--text-secondary); background:rgba(0,0,0,0.03); padding:10px; border-radius:8px;">
             <strong>তথ্যসূত্র:</strong> ${q.ref || 'উল্লেখিত নয়'}
           </div>
-          <div style="margin-top: 8px;">
-            <span class="trust-badge" style="background: ${getTrustColor(q.trust_rating)}; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px;">বিশ্বস্ততা: ${q.trust_rating}/10</span>
-          </div>
-          ${q.audio_url ? `
-            <div style="margin-top: 16px;">
-              <button class="embed-btn" onclick="AudioManager.play('${q.audio_url}', this)">
-                <span class="material-symbols-rounded">play_circle</span> অডিও শুনুন
-              </button>
-            </div>
-          ` : ''}
+          
           ${madhabHtml}
-          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-            <button class="btn-outline" onclick="MisconceptionsModule.expandAnswer()">
+          
+          <div style="margin-top: 24px; padding-top:16px; border-top:1px dashed var(--border-color); display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="embed-btn" onclick="MisconceptionsModule.playTTS(this)">
+              <span class="material-symbols-rounded">volume_up</span> উত্তর শুনুন
+            </button>
+            <button class="embed-btn" style="color:#2563eb; border-color:#bfdbfe;" onclick="MisconceptionsModule.expandAnswer(this)">
               <span class="material-symbols-rounded">auto_awesome</span> AI বিস্তারিত
             </button>
-            <button class="btn-outline" onclick="MisconceptionsModule.verifyAnswer()">
-              <span class="material-symbols-rounded">verified</span> যাচাই
+            <button class="embed-btn" onclick="navigator.clipboard.writeText('${q.a.replace(/'/g, "\\'")}')">
+              <span class="material-symbols-rounded">content_copy</span> কপি
             </button>
           </div>
         </div>
@@ -195,78 +179,96 @@ const MisconceptionsModule = (function() {
     `;
   }
 
-  // Show madhab note when a madhab is selected
   function showMadhabNote(madhab) {
-    if (!madhab || !currentQuestion || !currentQuestion.madhhab) return;
     const noteDiv = document.getElementById('madhabNote');
+    if (!madhab || !currentQuestion || !currentQuestion.madhhab) {
+      noteDiv.style.display = 'none';
+      return;
+    }
     const note = currentQuestion.madhhab[madhab];
     if (note) {
-      noteDiv.innerHTML = note;
+      noteDiv.innerHTML = `<strong>${madhab}:</strong> ${note}`;
       noteDiv.style.display = 'block';
     } else {
       noteDiv.style.display = 'none';
     }
   }
 
-  // Back to question list
   function backToQuestions() {
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
     detailView.style.display = 'none';
     questionList.style.display = 'grid';
   }
 
-  // Back to main categories
   function backToCategories() {
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
     detailView.style.display = 'none';
     questionList.style.display = 'none';
     categoryGrid.style.display = 'grid';
   }
 
-  // AI Expand – uses global AIEngine if available
-  async function expandAnswer() {
+  // Native SpeechSynthesis (No ResponsiveVoice)
+  function playTTS(btnElement) {
     if (!currentQuestion) return;
-    if (typeof AIEngine === 'undefined') {
-      alert('AI ইঞ্জিন উপলব্ধ নেই');
+    
+    if (!('speechSynthesis' in window)) {
+      if(typeof UI !== 'undefined') UI.showToast("আপনার ব্রাউজারে ভয়েস সাপোর্ট নেই");
+      else alert("আপনার ব্রাউজারে ভয়েস সাপোর্ট নেই");
       return;
     }
-    const prompt = `প্রশ্ন: ${currentQuestion.q}\n\nউত্তর:\n${currentQuestion.a}\n\nউপরের উত্তরটি আরও বিস্তারিতভাবে ব্যাখ্যা করুন, কুরআন ও হাদিসের দলিলসহ।`;
+
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      if (btnElement) btnElement.innerHTML = `<span class="material-symbols-rounded">volume_up</span> উত্তর শুনুন`;
+      return;
+    }
+
+    const cleanText = currentQuestion.a.replace(/\*/g, '').replace(/<[^>]*>/g, ' ').trim();
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = 'bn-BD';
+    utterance.rate = 0.9;
+    
+    if (btnElement) btnElement.innerHTML = '<span class="material-symbols-rounded">stop_circle</span> থামুন';
+
+    utterance.onend = () => {
+      if (btnElement) btnElement.innerHTML = `<span class="material-symbols-rounded">volume_up</span> উত্তর শুনুন`;
+    };
+    
+    window.speechSynthesis.speak(utterance);
+  }
+
+  async function expandAnswer(btnElement) {
+    if (!currentQuestion) return;
+    if (typeof AIEngine === 'undefined') {
+      alert('AI ইঞ্জিন লোড হয়নি। দয়া করে পেজটি রিফ্রেশ করুন।');
+      return;
+    }
+    
+    const originalHTML = btnElement.innerHTML;
+    btnElement.disabled = true;
+    btnElement.innerHTML = '<span class="material-symbols-rounded">hourglass_top</span> লোড হচ্ছে...';
+    
+    const prompt = `প্রশ্ন: ${currentQuestion.q}\n\nসংক্ষিপ্ত উত্তর:\n${currentQuestion.a}\n\nউপরের উত্তরটি আরও বিস্তারিতভাবে ব্যাখ্যা করুন, কুরআন ও হাদিসের দলিলসহ। যদি সমাজে এ নিয়ে কোনো প্রচলিত কুসংস্কার থাকে, তবে তা কেন ভুল সেটিও লজিক দিয়ে বুঝিয়ে বলুন। পয়েন্ট আকারে বাংলায় সুন্দর করে লিখুন।`;
+    
     try {
       const ans = await AIEngine.run(prompt);
-      // Show result in a modal or overlay – for simplicity, we append below
-      const ansDiv = document.createElement('div');
-      ansDiv.className = 'mag-section color-2';
-      ansDiv.innerHTML = `
-        <div class="mag-header">AI বিস্তারিত উত্তর</div>
-        <div class="mag-body">${ans.text.replace(/\n/g, '<br>')}</div>
-      `;
-      detailView.appendChild(ansDiv);
+      
+      // Use existing Modal from UI if available
+      if (typeof UI !== 'undefined' && UI.createModal) {
+         UI.createModal(`AI বিস্তারিত: ${currentQuestion.q}`, ans.text);
+      } else {
+         // Fallback basic modal
+         alert(ans.text.replace(/<[^>]*>/g, ''));
+      }
     } catch (e) {
-      alert('AI কল ব্যর্থ হয়েছে');
+      if(typeof UI !== 'undefined') UI.showToast('AI কল ব্যর্থ হয়েছে: ' + e.message);
+      else alert('AI কল ব্যর্থ হয়েছে: ' + e.message);
+    } finally {
+      btnElement.disabled = false;
+      btnElement.innerHTML = originalHTML;
     }
   }
 
-  // AI Verify – checks authenticity (dummy for now, could call AI with verification prompt)
-  async function verifyAnswer() {
-    if (!currentQuestion) return;
-    if (typeof AIEngine === 'undefined') {
-      alert('AI ইঞ্জিন উপলব্ধ নেই');
-      return;
-    }
-    const prompt = `প্রশ্ন: ${currentQuestion.q}\n\nউত্তর:\n${currentQuestion.a}\n\nউপরের উত্তরটির দলিল (কুরআন/হাদিস) যাচাই করুন। কোন হাদিসটি কোথায় আছে, তা উল্লেখ করুন এবং এর বিশুদ্ধতা (সহিহ/হাসান/জইফ) বলুন।`;
-    try {
-      const ans = await AIEngine.run(prompt);
-      const verifyDiv = document.createElement('div');
-      verifyDiv.className = 'mag-section color-4';
-      verifyDiv.innerHTML = `
-        <div class="mag-header">যাচাই ফলাফল</div>
-        <div class="mag-body">${ans.text.replace(/\n/g, '<br>')}</div>
-      `;
-      detailView.appendChild(verifyDiv);
-    } catch (e) {
-      alert('AI কল ব্যর্থ হয়েছে');
-    }
-  }
-
-  // Public API
   return {
     init: async function() {
       ensureContainers();
@@ -280,7 +282,7 @@ const MisconceptionsModule = (function() {
     backToCategories,
     showMadhabNote,
     expandAnswer,
-    verifyAnswer
+    playTTS
   };
 })();
 
