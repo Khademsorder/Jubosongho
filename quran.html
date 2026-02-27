@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>কুরআন ও হাদিস · সম্পূর্ণ সংস্করণ</title>
 
-    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Main Quran Module -->
     <script src="quran-module.js"></script>
 
-    <!-- PWA Meta -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b5e42" id="meta-theme-color">
     <meta name="mobile-web-app-capable" content="yes">
@@ -20,182 +17,60 @@
     <link rel="apple-touch-icon" href="logo.png">
 
     <style>
-        /* ========== GLOBAL STYLES ========== */
-        :root {
-            --bg-main: #f4f7f6;
-            --bg-surface: #ffffff;
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
-            --border-color: #e5e7eb;
-            --accent-primary: #0b5e42;
-            --accent-hover: #084c35;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
-        }[data-theme="dark"] {
-            --bg-main: #0f172a;
-            --bg-surface: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: #334155;
-            --accent-primary: #10b981;
-            --accent-hover: #059669;
-        }
+        :root { --bg-main: #f4f7f6; --bg-surface: #ffffff; --text-primary: #1f2937; --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-primary: #0b5e42; --shadow-sm: 0 2px 8px rgba(0,0,0,0.08); --shadow-md: 0 8px 16px rgba(0,0,0,0.1); }
+        [data-theme="dark"] { --bg-main: #0f172a; --bg-surface: #1e293b; --text-primary: #f8fafc; --text-secondary: #94a3b8; --border-color: #334155; --accent-primary: #10b981; --shadow-sm: 0 2px 8px rgba(0,0,0,0.4); --shadow-md: 0 8px 16px rgba(0,0,0,0.5); }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Noto Sans Bengali', sans-serif;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            line-height: 1.6;
-            padding-bottom: 70px;
-            overflow-x: hidden;
-        }
+        body { font-family: 'Noto Sans Bengali', sans-serif; background: var(--bg-main); color: var(--text-primary); padding-bottom: 70px; overflow-x: hidden; transition: all 0.3s ease; }
         .container { margin: 0 auto; padding: 0 16px; max-width: 900px; }
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 24px; background: var(--bg-surface);
-            border-bottom: 2px solid var(--accent-primary);
-            border-radius: 0 0 24px 24px; margin-bottom: 24px;
-            box-shadow: var(--shadow-sm);
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: var(--bg-surface); border-bottom: 2px solid var(--accent-primary); border-radius: 0 0 24px 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
         .logo { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--accent-primary); cursor: pointer; }
-        .icon-btn {
-            background: transparent; color: var(--text-secondary); cursor: pointer;
-            padding: 10px; border-radius: 50%; border: none; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .icon-btn:hover { background: var(--border-color); color: var(--accent-primary); }
-        .tabs {
-            display: flex; gap: 12px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px;
-        }
-        .tab {
-            padding: 10px 24px; background: var(--bg-surface); border: 1px solid var(--border-color);
-            border-radius: 50px; cursor: pointer; font-weight: 600; white-space: nowrap;
-            transition: 0.3s; display: flex; align-items: center; gap: 8px; color: var(--text-secondary);
-        }
+        .icon-btn { background: transparent; color: var(--text-secondary); cursor: pointer; padding: 10px; border-radius: 50%; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .tabs { display: flex; gap: 12px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; }
+        .tab { padding: 10px 24px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 50px; cursor: pointer; font-weight: 600; white-space: nowrap; transition: 0.3s; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
         .tab.active { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); box-shadow: 0 4px 12px rgba(11,94,66,0.3); }
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding-bottom: 40px;
-        }
-        .surah-card {
-            background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px;
-            padding: 16px; display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-sm);
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding-bottom: 40px; }
+        .surah-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-sm); }
         .surah-card:hover { transform: translateY(-4px); border-color: var(--accent-primary); box-shadow: var(--shadow-md); }
-        .surah-num {
-            background: var(--bg-main); color: var(--text-secondary); width: 40px; height: 40px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
-        }
+        .surah-num { background: var(--bg-main); color: var(--text-secondary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .surah-name { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
         .surah-sub { font-size: 13px; color: var(--text-secondary); }
-        .offline-badge {
-            font-size: 12px; background: #ecfdf5; color: #047857; padding: 2px 8px;
-            border-radius: 10px; margin-left: 8px; border: 1px solid #10b981; display: none;
-        }
-        .is-offline .offline-badge { display: inline-block; }
-        .btn-outline {
-            padding: 10px 20px; border: 2px solid var(--border-color); border-radius: 50px;
-            background: var(--bg-surface); cursor: pointer; display: inline-flex; align-items: center;
-            gap: 8px; color: var(--text-primary); font-weight: 600; transition: 0.3s;
-        }
-        .btn-outline:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); }
-        .embed-btn {
-            background: transparent; border: 1px solid var(--border-color); padding: 6px 12px;
-            border-radius: 20px; cursor: pointer; display:flex; align-items:center; gap:6px;
-            font-weight:600; font-size:13px; color: var(--text-primary); transition: all 0.2s;
-        }
+        .btn-outline { padding: 10px 20px; border: 2px solid var(--border-color); border-radius: 50px; background: var(--bg-surface); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; color: var(--text-primary); font-weight: 600; transition: 0.3s; }
+        .embed-btn { background: transparent; border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 20px; cursor: pointer; display:flex; align-items:center; gap:6px; font-weight:600; font-size:13px; color: var(--text-primary); transition: all 0.2s; }
         .embed-btn:hover { background: var(--bg-main); }
         .loader { display: none; text-align: center; padding: 40px; color: var(--text-secondary); }
-        .spinner {
-            border: 4px solid var(--border-color); border-top: 4px solid var(--accent-primary);
-            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 16px;
-        }
+        .spinner { border: 4px solid var(--border-color); border-top: 4px solid var(--accent-primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 16px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .toast {
-            position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%);
-            background: var(--text-primary); color: var(--bg-surface); padding: 14px 28px;
-            border-radius: 50px; transition: bottom 0.4s; z-index: 2000; font-weight: bold;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
-        }
+        .toast { position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%); background: var(--text-primary); color: var(--bg-surface); padding: 14px 28px; border-radius: 50px; transition: bottom 0.4s; z-index: 2000; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         .toast.show { bottom: 32px; }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 65px;
-            background: var(--bg-surface); display: flex; justify-content: space-around;
-            align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1000;
-            border-top: 1px solid var(--border-color);
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; color: var(--text-secondary);
-            text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; flex: 1; padding: 8px 0;
-        }
-        .nav-item .material-symbols-rounded { font-size: 24px; margin-bottom: 4px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: var(--bg-surface); display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border-color); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-secondary); text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; flex: 1; padding: 8px 0; }
         .nav-item.active { color: var(--accent-primary); }
-        .nav-item.active .material-symbols-rounded { font-variation-settings: 'FILL' 1; }
-        
-        /* Options */
-        .qari-selector {
-            display: flex; align-items: center; gap: 10px; background: var(--bg-surface);
-            padding: 8px 16px; border-radius: 30px; border: 1px solid var(--border-color);
-            margin-bottom: 20px; flex-wrap: wrap;
-        }
-        .qari-selector select {
-            padding: 8px 12px; border-radius: 20px; border: 1px solid var(--border-color);
-            background: var(--bg-main); color: var(--text-primary); font-family: inherit;
-        }
+        .qari-selector { display: flex; align-items: center; gap: 10px; background: var(--bg-surface); padding: 8px 16px; border-radius: 30px; border: 1px solid var(--border-color); margin-bottom: 20px; flex-wrap: wrap; }
+        .qari-selector select { padding: 8px 12px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-family: inherit; }
         .auto-toggle { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-        .auto-toggle button {
-            padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color);
-            background: var(--bg-main); cursor: pointer; font-weight: 600;
-        }
+        .auto-toggle button { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-main); cursor: pointer; font-weight: 600; }
         .auto-toggle button.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
-        
-        /* Topics & Hadith */
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 20px; }
-        .topic-card {
-            background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px;
-            padding: 16px; cursor: pointer; text-align: center; transition: 0.3s; border-left: 4px solid #f59e0b;
-        }
-        .topic-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-        .topic-card .count { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
-        .hadith-item {
-            background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px;
-            padding: 16px; margin-bottom: 16px; border-left: 4px solid #f59e0b;
-        }
-        .hadith-item .header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: var(--text-secondary); }
+        .topic-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; cursor: pointer; text-align: center; transition: 0.3s; border-left: 4px solid #f59e0b; }
+        .hadith-item { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 16px; border-left: 4px solid #f59e0b; box-shadow: var(--shadow-sm); }
+        .hadith-item .header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: var(--text-secondary); font-weight:bold; }
         .hadith-item .grade { background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px; }
-        
-        /* Reader View */
         #readerView { display: none; padding-bottom: 60px; }
         .reader-header { text-align: center; margin-bottom: 32px; background: var(--bg-surface); padding: 24px; border-radius: 20px; border: 1px solid var(--border-color); }
         .bismillah { font-family: 'Scheherazade New', serif; font-size: 32px; margin: 24px 0; text-align: center; }
-        .ayah-card {
-            background: var(--bg-surface); border-radius: 16px; margin-bottom: 16px; padding: 20px;
-            border: 1px solid var(--border-color); border-left: 4px solid var(--accent-primary);
-            box-shadow: var(--shadow-sm);
-        }
+        .ayah-card { background: var(--bg-surface); border-radius: 16px; margin-bottom: 16px; padding: 20px; border: 1px solid var(--border-color); border-left: 4px solid var(--accent-primary); box-shadow: var(--shadow-sm); }
         .ayah-header { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; margin-bottom: 16px; }
         .ayah-arabic { font-family: 'Scheherazade New', serif; font-size: 34px; line-height: 2; text-align: right; direction: rtl; margin-bottom: 16px; }
         .ayah-bangla { font-size: 18px; color: var(--text-secondary); line-height: 1.6; }
-        .ayah-pronunciation { font-size: 16px; color: #6d28d9; line-height: 1.6; margin-top: 10px; border-left: 3px solid #c4b5fd; padding-left: 10px; }
-        .ayah-english { font-size: 16px; color: #1d4ed8; line-height: 1.6; margin-top: 10px; border-left: 3px solid #93c5fd; padding-left: 10px; }
-        
-        @media (min-width: 768px) {
-            .bottom-nav { display: none; }
-            body { padding-bottom: 0; padding-left: 260px; }
-        }
+        .audio-playing { background: #ecfdf5 !important; border-color: #10b981 !important; color: #047857 !important; }
+        @media (min-width: 768px) { .bottom-nav { display: none; } body { padding-left: 260px; } }
     </style>
 </head>
 <body data-theme="light">
 
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <div class="nav-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">home</span><span>হোম</span></div>
-        <div class="nav-item active" onclick="window.location.href='quran.html'"><span class="material-symbols-rounded">menu_book</span><span>কুরআন</span></div>
-        <div class="nav-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">bookmark</span><span>সেভড</span></div>
-        <div class="nav-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">settings</span><span>সেটিংস</span></div>
+        <div class="nav-item active"><span class="material-symbols-rounded">menu_book</span><span>কুরআন</span></div>
     </div>
 
     <div class="container">
@@ -209,7 +84,6 @@
             </div>
         </header>
 
-        <!-- Qari Selector and Auto-Advance Toggle -->
         <div class="qari-selector">
             <span class="material-symbols-rounded">audio_file</span>
             <select id="qariSelect" onchange="changeQari(this.value)"></select>
@@ -219,16 +93,14 @@
             </div>
         </div>
 
-        <!-- Tabs -->
         <div class="tabs">
             <div class="tab active" onclick="switchTab('quran', this)"><span class="material-symbols-rounded">menu_book</span> কুরআন</div>
             <div class="tab" onclick="switchTab('hadith', this)"><span class=" material-symbols-rounded">library_books</span> হাদিস গ্রন্থ</div>
             <div class="tab" onclick="switchTab('topics', this)"><span class="material-symbols-rounded">topic</span> বিষয় ভিত্তিক হাদিস</div>
         </div>
 
-        <!-- Quran View -->
         <div id="quranView" style="display:block;">
-            <div class="search-bar" style="display:flex; align-items:center; background:var(--bg-surface); border-radius:50px; padding:8px 20px; margin-bottom:24px; border:2px solid transparent;">
+            <div style="display:flex; align-items:center; background:var(--bg-surface); border-radius:50px; padding:8px 20px; margin-bottom:24px; border:2px solid transparent; box-shadow:var(--shadow-sm);">
                 <span class="material-symbols-rounded" style="color:var(--text-secondary); margin-right:12px;">search</span>
                 <input type="text" id="searchInput" placeholder="সূরা খুঁজুন..." onkeyup="filterSurahs()" style="flex:1; background:transparent; border:none; color:var(--text-primary); font-size:16px; outline:none;">
             </div>
@@ -236,12 +108,8 @@
             <div class="grid" id="contentGrid"></div>
         </div>
 
-        <!-- Hadith Books View -->
-        <div id="hadithView" style="display:none;">
-            <div class="grid" id="hadithGrid"></div>
-        </div>
+        <div id="hadithView" style="display:none;"><div class="grid" id="hadithGrid"></div></div>
 
-        <!-- Topics View -->
         <div id="topicsView" style="display:none;">
             <div class="topic-grid" id="topicGrid"></div>
             <div id="topicHadithList" style="display:none; margin-top:20px;">
@@ -251,18 +119,16 @@
             </div>
         </div>
 
-        <!-- Reader View (for Quran) -->
         <div id="readerView">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                 <button class="btn-outline" style="border-color:var(--accent-primary);" onclick="closeReader()"><span class="material-symbols-rounded">arrow_back</span> ফিরে যান</button>
-                <div style="display:flex; gap:8px;" id="readerActionButtons"></div>
+                <div id="readerActionButtons"></div>
             </div>
             <div class="reader-header" id="readerHeader"></div>
             <div class="bismillah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
             <div id="ayahsContainer"></div>
         </div>
 
-        <!-- Hadith Book Reader View -->
         <div id="hadithReaderView" style="display:none;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                 <button class="btn-outline" style="border-color:var(--accent-primary);" onclick="closeHadithReader()"><span class="material-symbols-rounded">arrow_back</span> ফিরে যান</button>
@@ -275,6 +141,16 @@
     <div class="toast" id="toast"><span class="material-symbols-rounded">info</span> <span id="toastMsg">বার্তা</span></div>
 
     <script>
+        // Self-healing Error Handler (Factory Reset)
+        window.onerror = function(msg, url, line) {
+            document.body.innerHTML = `<div style="padding:40px; text-align:center; color:#ef4444; background:#fee2e2; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                <h1 style="font-size:40px; margin-bottom:10px;">⚠️ সিস্টেম এরর!</h1>
+                <p style="font-size:18px; margin-bottom:20px;">আপনার ব্রাউজারের পুরনো ক্যাশ ডাটার কারণে সাইটটি ক্র্যাশ করেছে।</p>
+                <p style="font-size:14px; margin-bottom:30px; color:#991b1b;">Error: ${msg} (Line: ${line})</p>
+                <button onclick="localStorage.clear(); sessionStorage.clear(); caches.keys().then(ks => ks.forEach(k => caches.delete(k))); navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())); alert('ডাটা ক্লিন করা হয়েছে। এবার রিলোড দিন।'); window.location.reload();" style="padding:15px 30px; background:#dc2626; color:white; border:none; border-radius:50px; font-size:18px; font-weight:bold; cursor:pointer; box-shadow:0 4px 15px rgba(220,38,38,0.4);">ফ্যাক্টরি রিসেট করুন</button>
+            </div>`;
+        };
+
         let allSurahs =[];
         let currentTheme = localStorage.getItem('theme') || 'light';
         let currentTab = 'quran';
@@ -296,6 +172,9 @@
         }
 
         window.onload = async function() {
+            if (typeof IslamicModule === 'undefined') {
+                throw new Error("IslamicModule is missing! Please hard refresh (Ctrl+F5).");
+            }
             await IslamicModule.init();
             initQariSelect();
             loadQuranList();
@@ -351,14 +230,14 @@
 
         function renderSurahList(list) {
             const grid = document.getElementById('contentGrid');
-            if (!list.length) { grid.innerHTML = '<div style="text-align:center; padding:40px;">কিছু পাওয়া যায়নি</div>'; return; }
+            if (!list.length) { grid.innerHTML = '<div style="text-align:center; padding:40px; grid-column:1/-1;">কিছু পাওয়া যায়নি</div>'; return; }
             grid.innerHTML = list.map(s => `
-                <div class="surah-card" id="surah-card-${s.number}" onclick="openSurah(${s.number})">
+                <div class="surah-card" onclick="openSurah(${s.number})">
                     <div style="display:flex; align-items:center; gap:16px;">
                         <div class="surah-num">${s.number}</div>
                         <div>
-                            <div class="surah-name">${s.englishName} <span class="offline-badge"><span class="material-symbols-rounded" style="font-size:12px;">cloud_done</span> অফলাইন</span></div>
-                            <div class="surah-sub">${s.name} • ${s.numberOfAyahs} আয়াত • ${s.revelationType === 'Meccan' ? 'মাক্কী' : 'মাদানী'}</div>
+                            <div class="surah-name">${s.englishName}</div>
+                            <div class="surah-sub">${s.name} • ${s.numberOfAyahs} আয়াত</div>
                         </div>
                     </div>
                 </div>
@@ -381,22 +260,21 @@
             if (!surah) { showToast("সূরা লোড হয়নি"); closeReader(); return; }
             
             document.getElementById('readerHeader').innerHTML = `
-                <h1 style="font-size:28px; color:var(--accent-primary);">${surah.englishName}</h1>
-                <div style="font-size:18px; font-family:'Amiri';">${surah.name}</div>
+                <h1 style="font-size:28px; color:var(--accent-primary); margin-bottom:5px;">${surah.englishName}</h1>
+                <div style="font-size:20px; font-family:'Amiri'; margin-bottom:5px;">${surah.name}</div>
                 <div style="color:var(--text-secondary);">${surah.ayahs.length} আয়াত</div>
             `;
             
             document.getElementById('readerActionButtons').innerHTML = `
-                <button class="btn-outline" onclick="AudioManager.downloadFullSurah(${id}, ${surah.ayahs.length}, this)">
-                    <span class="material-symbols-rounded">download_for_offline</span> সম্পূর্ণ সূরা ডাউনলোড
+                <button class="btn-outline" onclick="IslamicModule.AudioManager.downloadFullSurah(${id}, ${surah.ayahs.length}, this)" style="background:var(--accent-primary); color:white;">
+                    <span class="material-symbols-rounded">download</span> সূরাটি অফলাইনে সেভ করুন
                 </button>
             `;
 
             let html = '';
             surah.ayahs.forEach(a => {
-                const safeBangla = a.bangla.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                const safeEnglish = a.english.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                const safeArabic = a.arabic.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safeBangla = (a.bangla || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safeArabic = (a.arabic || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 html += `
                 <div class="ayah-card" id="ayah-${a.numberInSurah}">
                     <div class="ayah-header">
@@ -404,16 +282,15 @@
                         <div style="display:flex; gap:8px;">
                             <button class="icon-btn" onclick="playAyahAudio('${a.audio}', ${a.numberInSurah}, ${surah.ayahs.length}, this)" title="প্লে"><span class="material-symbols-rounded">play_circle</span></button>
                             <button class="icon-btn" onclick="IslamicModule.UI.playTTS('${safeBangla}', this)" title="বাংলা শুনুন"><span class="material-symbols-rounded">record_voice_over</span></button>
-                            <button class="icon-btn" style="color: #2563eb;" onclick="IslamicModule.UI.showBackstory('${surah.englishName}', ${a.numberInSurah}, '${safeArabic}', '${safeBangla}', this)" title="AI বিস্তারিত"><span class="material-symbols-rounded">smart_toy</span></button>
+                            <button class="icon-btn" style="color:#2563eb;" onclick="IslamicModule.UI.showBackstory('${surah.englishName}', ${a.numberInSurah}, '${safeArabic}', '${safeBangla}', this)" title="AI বিস্তারিত"><span class="material-symbols-rounded">smart_toy</span></button>
                         </div>
                     </div>
                     <div class="ayah-arabic">${a.arabic} ۝</div>
-                    <div class="ayah-pronunciation">${a.transliteration || ''}</div>
                     <div class="ayah-bangla">${a.bangla}</div>
-                    <div class="ayah-english">${a.english || ''}</div>
                 </div>`;
             });
             document.getElementById('ayahsContainer').innerHTML = html;
+            window.scrollTo(0,0);
             history.pushState({ view: 'reader', id }, '', `#surah-${id}`);
         }
 
@@ -421,11 +298,13 @@
             IslamicModule.UI.playAudio(url, btn, () => {
                 if (IslamicModule.Quran.getAutoAdvance() && ayahNo < total) {
                     const nextAyah = document.getElementById(`ayah-${ayahNo+1}`);
-                    nextAyah.scrollIntoView({behavior:'smooth', block: 'center'});
-                    setTimeout(() => {
-                        const nextBtn = nextAyah.querySelector('.icon-btn');
-                        if (nextBtn) nextBtn.click();
-                    }, 800);
+                    if(nextAyah) {
+                        nextAyah.scrollIntoView({behavior:'smooth', block: 'center'});
+                        setTimeout(() => {
+                            const nextBtn = nextAyah.querySelector('.icon-btn');
+                            if (nextBtn) nextBtn.click();
+                        }, 800);
+                    }
                 }
             });
         }
@@ -442,10 +321,10 @@
         /* HADITH BOOKS */
         async function loadHadithList() {
             const grid = document.getElementById('hadithGrid');
-            grid.innerHTML = '<div class="loader" style="display:block;"><div class="spinner"></div>লোড হচ্ছে...</div>';
+            grid.innerHTML = '<div class="loader" style="display:block; grid-column:1/-1;"><div class="spinner"></div>লোড হচ্ছে...</div>';
             const books = await IslamicModule.Hadith.getBookList();
             grid.innerHTML = books.map(b => `
-                <div class="surah-card" id="hadith-book-${b.id}" style="${b.isDownloaded ? 'border-left:4px solid #10b981;' : ''}">
+                <div class="surah-card" style="${b.isDownloaded ? 'border-left:4px solid #10b981;' : ''}">
                     <div style="width:100%;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                             <div><div class="surah-name">${b.name}</div><div class="surah-sub">${b.count} টি হাদিস</div></div>
@@ -453,22 +332,21 @@
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-color); padding-top:12px;">
                             ${b.isDownloaded ? `
-                                <span style="font-size:12px; color:#10b981; display:flex; align-items:center; gap:4px;"><span class="material-symbols-rounded">check_circle</span> সেভ করা</span>
+                                <span style="font-size:12px; color:#10b981; display:flex; align-items:center; gap:4px;"><span class="material-symbols-rounded" style="font-size:16px;">check_circle</span> সেভ করা</span>
                                 <button class="embed-btn" onclick="openHadithBook('${b.id}', '${b.name}')">পড়ুন <span class="material-symbols-rounded">arrow_forward</span></button>
                             ` : `
                                 <span style="font-size:12px; color:var(--text-secondary);">ইন্টারনেট প্রয়োজন</span>
-                                <button class="embed-btn" onclick="startHadithDownload('${b.id}')"><span class="material-symbols-rounded">download</span> ডাউনলোড</button>
+                                <button class="embed-btn" onclick="startHadithDownload('${b.id}', this, 'progress-${b.id}')"><span class="material-symbols-rounded">download</span> ডাউনলোড</button>
                             `}
                         </div>
-                        <div id="progress-${b.id}" style="display:none; margin-top:10px; height:4px; background:var(--border-color); border-radius:2px;"><div style="height:100%; width:0%; background:var(--accent-primary);"></div></div>
+                        <div id="progress-${b.id}" style="display:none; margin-top:10px; height:6px; background:var(--border-color); border-radius:3px; overflow:hidden;"><div style="height:100%; width:0%; background:var(--accent-primary); transition: width 0.3s;"></div></div>
                     </div>
                 </div>
             `).join('');
         }
 
-        async function startHadithDownload(bookId) {
-            const btn = document.querySelector(`#hadith-book-${bookId} .embed-btn`);
-            const prog = document.getElementById(`progress-${bookId}`);
+        async function startHadithDownload(bookId, btn, progressId) {
+            const prog = document.getElementById(progressId);
             btn.style.display = 'none';
             prog.style.display = 'block';
             
@@ -477,7 +355,7 @@
             });
             
             if (success) {
-                showToast('ডাউনলোড সফল!');
+                showToast('বইটি সফলভাবে সেভ হয়েছে!');
                 loadHadithList();
             } else {
                 prog.style.display = 'none';
@@ -491,7 +369,7 @@
             document.getElementById('hadithReaderView').style.display = 'block';
             document.getElementById('hadithBookTitle').innerText = bookName;
             const container = document.getElementById('hadithBookContainer');
-            container.innerHTML = '<div class="loader" style="display:block;"><div class="spinner"></div>লোড হচ্ছে...</div>';
+            container.innerHTML = '<div class="loader" style="display:block;"><div class="spinner"></div>হাদিস লোড হচ্ছে...</div>';
             
             const hadiths = await IslamicModule.Hadith.getHadithsByBook(bookId, 50); // First 50
             if (!hadiths.length) {
@@ -500,7 +378,7 @@
             }
             
             container.innerHTML = hadiths.map(h => {
-                const safeBangla = h.bangla.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safeBangla = (h.bangla || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 return `
                 <div class="hadith-item">
                     <div class="header">
@@ -508,13 +386,14 @@
                         <span class="grade">${h.grade}</span>
                     </div>
                     <div style="font-size:16px; line-height:1.7;">${h.bangla}</div>
-                    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; border-top:1px dashed var(--border-color); padding-top:12px;">
                         <button class="embed-btn" onclick="IslamicModule.UI.playTTS('${safeBangla}', this)"><span class="material-symbols-rounded">volume_up</span> শুনুন</button>
-                        <button class="embed-btn" onclick="navigator.clipboard.writeText('${safeBangla}')"><span class="material-symbols-rounded">content_copy</span> কপি</button>
+                        <button class="embed-btn" onclick="navigator.clipboard.writeText('${safeBangla}'); showToast('কপি হয়েছে!');"><span class="material-symbols-rounded">content_copy</span> কপি</button>
                         <button class="embed-btn" style="color:#2563eb; border-color:#bfdbfe; background:#eff6ff;" onclick="IslamicModule.UI.showHadithExplanation('${bookName}', ${h.number}, '${safeBangla}', this)"><span class="material-symbols-rounded">smart_toy</span> AI বিস্তারিত</button>
                     </div>
                 </div>
             `}).join('');
+            window.scrollTo(0,0);
         }
 
         function closeHadithReader() {
@@ -529,9 +408,9 @@
             const grid = document.getElementById('topicGrid');
             grid.innerHTML = topics.map(t => `
                 <div class="topic-card" onclick="showTopicHadith('${t.id}', '${t.name}')">
-                    <span class="material-symbols-rounded" style="color:#f59e0b; font-size:32px;">topic</span>
-                    <div style="font-weight:700; margin-top:8px;">${t.name}</div>
-                    <div class="count">${t.count} টি হাদিস</div>
+                    <span class="material-symbols-rounded" style="color:#f59e0b; font-size:36px;">topic</span>
+                    <div style="font-weight:700; margin-top:8px; font-size:16px;">${t.name}</div>
+                    <div class="count" style="margin-top:4px; font-weight:bold; color:var(--accent-primary);">${t.count} টি হাদিস</div>
                 </div>
             `).join('');
             document.getElementById('topicHadithList').style.display = 'none';
@@ -543,16 +422,16 @@
             const listDiv = document.getElementById('topicHadithList');
             const container = document.getElementById('topicHadithContainer');
             document.getElementById('topicTitle').textContent = topicName;
-            container.innerHTML = '<div class="loader" style="display:block;"><div class="spinner"></div>লোড হচ্ছে...</div>';
+            container.innerHTML = '<div class="loader" style="display:block;"><div class="spinner"></div>খোঁজা হচ্ছে...</div>';
             listDiv.style.display = 'block';
             
             const hadiths = await IslamicModule.Hadith.getHadithsByTopic(topicId);
             if (!hadiths.length) {
-                container.innerHTML = '<p style="text-align:center; padding:40px;">এই বিষয়ে কোনো হাদিস এখনও ডাউনলোড হয়নি। প্রথমে হাদিসের বইগুলো ডাউনলোড করুন।</p>';
+                container.innerHTML = '<div style="text-align:center; padding:40px; background:var(--bg-surface); border-radius:20px; border:1px solid var(--border-color);"><span class="material-symbols-rounded" style="font-size:48px; color:var(--text-secondary); margin-bottom:16px;">search_off</span><p style="font-size:16px; font-weight:bold;">এই বিষয়ে কোনো হাদিস অফলাইনে সেভ নেই।</p><p style="color:var(--text-secondary); font-size:14px;">অনুগ্রহ করে প্রথমে "হাদিস গ্রন্থ" ট্যাব থেকে বইগুলো ডাউনলোড করুন।</p></div>';
                 return;
             }
             container.innerHTML = hadiths.map(h => {
-                const safeBangla = h.bangla.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safeBangla = (h.bangla || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 return `
                 <div class="hadith-item">
                     <div class="header">
@@ -560,9 +439,8 @@
                         <span class="grade">${h.grade}</span>
                     </div>
                     <div style="font-size:16px; line-height:1.7;">${h.bangla}</div>
-                    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; border-top:1px dashed var(--border-color); padding-top:12px;">
                         <button class="embed-btn" onclick="IslamicModule.UI.playTTS('${safeBangla}', this)"><span class="material-symbols-rounded">volume_up</span> শুনুন</button>
-                        <button class="embed-btn" onclick="navigator.clipboard.writeText('${safeBangla}')"><span class="material-symbols-rounded">content_copy</span> কপি</button>
                         <button class="embed-btn" style="color:#2563eb; border-color:#bfdbfe; background:#eff6ff;" onclick="IslamicModule.UI.showHadithExplanation('${h.book}', ${h.number}, '${safeBangla}', this)"><span class="material-symbols-rounded">smart_toy</span> AI বিস্তারিত</button>
                     </div>
                 </div>
