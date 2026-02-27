@@ -1,10 +1,3 @@
---- START OF FILE text/javascript ---
-
-/**
- * Quran & Hadith Module (Cloud + Offline) - v6.0 Complete
- * Fixed TTS, Added Full Surah Download, Chunked Hadith Loading, and AI Expanse
- */
-
 const IslamicModule = (function () {
   const DB_NAME = 'IslamicKnowledgeCoreStore';
   let dbInstance = null;
@@ -18,7 +11,7 @@ const IslamicModule = (function () {
     { id: 'ar.minshawi', name: 'Minshawi' }
   ];
   let currentQari = localStorage.getItem('preferredQari') || 'ar.alafasy';
-  let autoAdvanceEnabled = localStorage.getItem('autoAdvance') === 'true' ? true : false;
+  let autoAdvanceEnabled = localStorage.getItem('autoAdvance') === 'true';
 
   const HADITH_TOPICS =[
     { id: 'iman', name: 'ঈমান ও আকীদা', keywords:['ঈমান', 'আকীদা', 'তাওহীদ', 'শিরক', 'কুফর', 'মুনাফিক', 'আল্লাহ', 'রাসূল', 'ফেরেশতা', 'কিতাব', 'আখিরাত', 'তকদির', 'ভাগ্য'] },
@@ -73,15 +66,21 @@ const IslamicModule = (function () {
     return new Promise(resolve => {
       const tx = dbInstance.transaction(storeName, 'readonly');
       const req = tx.objectStore(storeName).get(key);
-      req.onsuccess = () => resolve(req.result);
+      req.onsuccess = () => resolve(req.result ? req.result.data : null);
       req.onerror = () => resolve(null);
     });
   }
 
-  async function saveToDB(storeName, data) {
+  async function saveToDB(storeName, key, data, isComplete = false) {
     if (!dbInstance) await initDB();
-    const tx = dbInstance.transaction(storeName, 'readwrite');
-    tx.objectStore(storeName).put(data);
+    return new Promise((resolve, reject) => {
+       const tx = dbInstance.transaction(storeName, 'readwrite');
+       const obj = { id: key, key: key, data: data }; // both id and key for compatibility
+       if(isComplete) obj.isComplete = true;
+       const req = tx.objectStore(storeName).put(obj);
+       req.onsuccess = () => resolve();
+       req.onerror = () => reject();
+    });
   }
 
   async function deleteFromDB(storeName, keyPattern) {
@@ -93,7 +92,7 @@ const IslamicModule = (function () {
       request.onsuccess = (event) => {
         const cursor = event.target.result;
         if (cursor) {
-          if (cursor.key.toString().startsWith(keyPattern)) cursor.delete();
+          if (String(cursor.key).startsWith(keyPattern)) cursor.delete();
           cursor.continue();
         } else resolve();
       };
@@ -120,7 +119,16 @@ const IslamicModule = (function () {
     },
 
     getSurah: async (surahId) => {
-      const cached = await getFromDB('surahs', surahId);
+      // Check cache first
+      if (!dbInstance) await initDB();
+      const tx = dbInstance.transaction('surahs', 'readonly');
+      const req = tx.objectStore('surahs').get(surahId);
+      
+      const cached = await new Promise(r => {
+          req.onsuccess = () => r(req.result);
+          req.onerror = () => r(null);
+      });
+
       if (cached && cached.isComplete) return cached.data;
 
       try {
@@ -156,7 +164,7 @@ const IslamicModule = (function () {
           });
         }
 
-        await saveToDB('surahs', { id: surahId, data, isComplete: true });
+        await saveToDB('surahs', surahId, data, true);
         return data;
       } catch (e) {
         console.error("Error fetching full Surah:", e);
@@ -166,15 +174,15 @@ const IslamicModule = (function () {
 
     getMetadata: async () => {
       const cached = await getFromDB('surahs', 'metadata');
-      if (cached) return cached.data;
+      if (cached) return cached;
       try {
         const res = await fetch('https://api.alquran.cloud/v1/surah');
         const json = await res.json();
         if (json.code === 200) {
-          await saveToDB('surahs', { id: 'metadata', data: json.data });
+          await saveToDB('surahs', 'metadata', json.data);
           return json.data;
         }
-        return [];
+        return[];
       } catch (e) {
         return[];
       }
@@ -188,7 +196,7 @@ const IslamicModule = (function () {
     getAyahBackstory: async (surah, ayah, arabic, bangla) => {
       const key = localStorage.getItem('geminiKey');
       const model = localStorage.getItem('geminiModel') || 'gemini-1.5-flash';
-      if (!key) return "বিস্তারিত দেখতে সেটিংস থেকে Gemini API Key দিন।";
+      if (!key) return "বিস্তারিত দেখতে সেটিংসে গিয়ে Google Gemini API Key দিন।";
 
       const prompt = `তুমি একজন প্রাজ্ঞ ইসলামিক পণ্ডিত। নিচের আয়াতটির বিস্তারিত বিশ্লেষণ দাও:
 সূরা: ${surah}, আয়াত: ${ayah}
@@ -288,7 +296,7 @@ const IslamicModule = (function () {
           if (progressCallback) progressCallback(percent, `${inserted} / ${total} সেভ হয়েছে`);
         }
 
-        await saveToDB('hadith', { key: `book_meta_${bookId}`, totalCount: total });
+        await saveToDB('hadith', `book_meta_${bookId}`, { totalCount: total });
         return true;
       } catch (error) {
         console.error("Download Error:", error);
@@ -316,7 +324,10 @@ const IslamicModule = (function () {
         const req = tx.objectStore('hadith').getAll();
         req.onsuccess = () => {
           const all = req.result;
-          resolve(all.filter(item => item.key.startsWith(`${bookId}_`)).map(i => i.data).slice(0, limit));
+          // Sort numerically based on hadith number to ensure correct order
+          let filtered = all.filter(item => String(item.key).startsWith(`${bookId}_`)).map(i => i.data);
+          filtered.sort((a,b) => a.number - b.number);
+          resolve(filtered.slice(0, limit));
         };
         req.onerror = () => resolve([]);
       });
@@ -348,7 +359,7 @@ const IslamicModule = (function () {
     getHadithExplanation: async (book, number, text) => {
       const key = localStorage.getItem('geminiKey');
       const model = localStorage.getItem('geminiModel') || 'gemini-1.5-flash';
-      if (!key) return "বিস্তারিত দেখতে সেটিংস থেকে Gemini API Key দিন।";
+      if (!key) return "বিস্তারিত দেখতে সেটিংসে গিয়ে Google Gemini API Key দিন।";
 
       const prompt = `তুমি একজন প্রাজ্ঞ ইসলামিক পণ্ডিত। নিচের হাদিসটির বিস্তারিত বিশ্লেষণ দাও:
 গ্রন্থ: ${book}, হাদিস নং: ${number}
@@ -378,7 +389,7 @@ const IslamicModule = (function () {
   };
 
   // --- AUDIO MANAGER (Full Surah Offline Download) ---
-  window.AudioManager = {
+  const AudioManagerObj = {
     cacheName: 'islamic-audio-cache-v1',
     getCacheKey: (s, a) => `offline-audio://${s}:${a}`,
     
@@ -399,12 +410,12 @@ const IslamicModule = (function () {
       btn.disabled = true;
       try {
         if (!navigator.onLine) throw new Error("offline");
-        const cache = await caches.open(AudioManager.cacheName);
+        const cache = await caches.open(AudioManagerObj.cacheName);
         
         for (let i = 1; i <= totalAyahs; i++) {
           btn.innerHTML = `<span class="material-symbols-rounded">hourglass_top</span> নামছে... (${i}/${totalAyahs})`;
-          const url = await AudioManager.resolveAudioUrl(surahId, i);
-          const key = AudioManager.getCacheKey(surahId, i);
+          const url = await AudioManagerObj.resolveAudioUrl(surahId, i);
+          const key = AudioManagerObj.getCacheKey(surahId, i);
           
           const cached = await cache.match(key);
           if (!cached) {
@@ -413,7 +424,8 @@ const IslamicModule = (function () {
           }
         }
         btn.innerHTML = '<span class="material-symbols-rounded">task_alt</span> সেভড';
-        alert("সম্পূর্ণ সূরা অফলাইনের জন্য সেভ করা হয়েছে!");
+        if(typeof showToast !== 'undefined') showToast("সম্পূর্ণ সূরা অফলাইনের জন্য সেভ করা হয়েছে!");
+        else alert("সম্পূর্ণ সূরা অফলাইনের জন্য সেভ করা হয়েছে!");
       } catch (error) {
         console.error("Surah Download Error:", error);
         btn.innerHTML = '<span class="material-symbols-rounded">error</span> ব্যর্থ';
@@ -468,7 +480,8 @@ const IslamicModule = (function () {
       if (!cleanText) return;
 
       if (!('speechSynthesis' in window)) {
-        alert("আপনার ব্রাউজারে ভয়েস সাপোর্ট নেই");
+        if(typeof showToast !== 'undefined') showToast("আপনার ব্রাউজারে ভয়েস সাপোর্ট নেই");
+        else alert("আপনার ব্রাউজারে ভয়েস সাপোর্ট নেই");
         return;
       }
 
@@ -506,7 +519,7 @@ const IslamicModule = (function () {
         modal.style.justifyContent = 'center';
         modal.style.alignItems = 'center';
         
-        const safeContent = String(content).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        const safeContent = String(content).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
         
         modal.innerHTML = `
             <div style="background:var(--bg-surface); width:92%; max-width:500px; padding:24px; border-radius:20px; max-height:85vh; overflow-y:auto; border:2px solid var(--accent-primary); box-shadow:0 10px 25px rgba(0,0,0,0.3);">
@@ -514,7 +527,7 @@ const IslamicModule = (function () {
                     <h3 style="color:var(--accent-primary); margin:0; font-size:18px;">${title}</h3>
                     <button class="icon-btn" onclick="this.parentElement.parentElement.parentElement.remove()" style="background:var(--bg-main);"><span class="material-symbols-rounded">close</span></button>
                 </div>
-                <div style="font-size:15px; line-height:1.7; color:var(--text-primary); white-space:pre-wrap;">${safeContent}</div>
+                <div style="font-size:15px; line-height:1.7; color:var(--text-primary);">${safeContent}</div>
                 <button class="embed-btn" style="margin-top:20px; width:100%; justify-content:center; background:var(--accent-primary); color:#fff;" onclick="this.parentElement.parentElement.remove()">বন্ধ করুন</button>
             </div>
         `;
@@ -529,7 +542,8 @@ const IslamicModule = (function () {
         const story = await QuranAPI.getAyahBackstory(surah, ayah, arabic, bangla);
         UIRenderer.createModal(`আয়াতের বিস্তারিত (সূরা: ${surah}, আয়াত: ${ayah})`, story);
       } catch (e) {
-        alert("লোড করতে সমস্যা হয়েছে।");
+        if(typeof showToast !== 'undefined') showToast("লোড করতে সমস্যা হয়েছে।");
+        else alert("লোড করতে সমস্যা হয়েছে।");
       } finally {
         btn.disabled = false;
         btn.innerHTML = originalHtml;
@@ -544,7 +558,8 @@ const IslamicModule = (function () {
         const exp = await HadithAPI.getHadithExplanation(book, number, text);
         UIRenderer.createModal(`${book} - হাদিস নং ${number}`, exp);
       } catch (e) {
-        alert("লোড করতে সমস্যা হয়েছে।");
+        if(typeof showToast !== 'undefined') showToast("লোড করতে সমস্যা হয়েছে।");
+        else alert("লোড করতে সমস্যা হয়েছে।");
       } finally {
         btn.disabled = false;
         btn.innerHTML = originalHtml;
@@ -560,6 +575,7 @@ const IslamicModule = (function () {
       getAutoAdvance: () => autoAdvanceEnabled
     },
     Hadith: HadithAPI,
-    UI: UIRenderer
+    UI: UIRenderer,
+    AudioManager: AudioManagerObj
   };
 })();
