@@ -1,5 +1,5 @@
-const CACHE_NAME = 'islamic-knowledge-cache-v8';
-const OFFLINE_URLS = [
+const CACHE_NAME = 'islamic-knowledge-cache-v9';
+const OFFLINE_URLS =[
   './',
   './islamic.html',
   './quran.html',
@@ -12,8 +12,7 @@ const OFFLINE_URLS = [
   './manifest.json',
   './logo.png',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0,1',
-  'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap',
-  'https://code.responsivevoice.org/responsivevoice.js'
+  'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap'
 ];
 
 // Install event – cache all static assets
@@ -96,7 +95,7 @@ self.addEventListener('fetch', event => {
           // For everything else, a simple offline response
           return new Response('নেটওয়ার্ক সংযোগ নেই', {
             status: 408,
-            headers: { 'Content-Type': 'text/plain' }
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
           });
         });
     })
