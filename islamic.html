@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>ইসলামিক জ্ঞান · সম্পূর্ণ সংস্করণ</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- ResponsiveVoice for TTS -->
+  <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+
+  <!-- PWA & Native App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b5e42" id="meta-theme-color">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <style>
+    /* ========== GLOBAL STYLES ========== */
+    :root {
+      --bg-main: #f4f7f6;
+      --bg-surface: #ffffff;
+      --text-primary: #1f2937;
+      --text-secondary: #4b5563;
+      --border-color: #e5e7eb;
+      --accent-primary: #0b5e42;
+      --accent-hover: #084c35;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
+      --mag-font-size: 16px;
+      --mag-1-bg: #e8f5e9;
+      --mag-1-border: #81c784;
+      --mag-2-bg: #fce4ec;
+      --mag-2-border: #f06292;
+      --mag-3-bg: #e3f2fd;
+      --mag-3-border: #64b5f6;
+      --mag-4-bg: #fff3e0;
+      --mag-4-border: #ffb74d;
+      --mag-5-bg: #f3e5f5;
+      --mag-5-border: #ba68c8;
+      --mag-6-bg: #e0f2f1;
+      --mag-6-border: #4db6ac;
+      --mag-7-bg: #fbe9e7;
+      --mag-7-border: #ff8a65;
+      --mag-8-bg: #f0f4c3;
+      --mag-8-border: #aed581;
+      --mag-9-bg: #ffebee;
+      --mag-9-border: #e57373;
+      --mag-10-bg: #e8eaf6;
+      --mag-10-border: #7986cb;
+      --mag-11-bg: #e0f7fa;
+      --mag-11-border: #4dd0e1;
+      --mag-12-bg: #fdf2f8;
+      --mag-12-border: #f472b6;
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-surface: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --accent-primary: #10b981;
+      --accent-hover: #059669;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+      --shadow-md: 0 8px 16px rgba(0,0,0,0.5);
+      --mag-1-bg: #064e3b;
+      --mag-1-border: #059669;
+      --mag-2-bg: #1e3a8a;
+      --mag-2-border: #2563eb;
+      --mag-3-bg: #78350f;
+      --mag-3-border: #d97706;
+      --mag-4-bg: #4c1d95;
+      --mag-4-border: #7c3aed;
+      --mag-5-bg: #134e4a;
+      --mag-5-border: #0d9488;
+      --mag-6-bg: #7f1d1d;
+      --mag-6-border: #dc2626;
+      --mag-7-bg: #831843;
+      --mag-7-border: #e11d48;
+      --mag-8-bg: #334155;
+      --mag-8-border: #64748b;
+      --mag-9-bg: #3f6212;
+      --mag-9-border: #65a30d;
+      --mag-10-bg: #312e81;
+      --mag-10-border: #4f46e5;
+      --mag-11-bg: #0c4a6e;
+      --mag-11-border: #38bdf8;
+      --mag-12-bg: #831843;
+      --mag-12-border: #f472b6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      transition: all 0.4s ease;
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-bottom: 70px;
+    }
+    .container { margin: 0 auto; padding: 0 16px; max-width: 900px; }
+    button, input, select { font-family: inherit; outline: none; border: none; }
+
+    /* Animations */
+    @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeInScale { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* Header */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px; background: var(--bg-surface);
+      border-bottom: 2px solid var(--accent-primary);
+      border-radius: 0 0 24px 24px; margin-bottom: 24px;
+      box-shadow: var(--shadow-sm); animation: slideDown 0.5s ease;
+    }
+    .logo {
+      font-size: 22px; font-weight: 800; display: flex; align-items: center;
+      gap: 8px; color: var(--accent-primary); cursor: pointer;
+    }
+    .icon-btn {
+      background: transparent; color: var(--text-secondary); cursor: pointer;
+      padding: 10px; border-radius: 50%; transition: 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background: var(--border-color); color: var(--accent-primary); }
+
+    /* Search Bar */
+    .search-wrapper {
+      display: flex; align-items: center; gap: 8px; background: var(--bg-surface);
+      border: 2px solid transparent; border-radius: 50px; padding: 6px 16px;
+      box-shadow: var(--shadow-md); margin-bottom: 24px; transition: 0.3s;
+      animation: fadeInScale 0.6s ease;
+    }
+    .search-wrapper:focus-within { border-color: var(--accent-primary); transform: translateY(-2px); }
+    .search-input {
+      flex: 1; font-size: 16px; background: transparent; color: var(--text-primary);
+      padding: 12px 0; width: 100%;
+    }
+    .action-btn {
+      background: var(--accent-primary); color: #fff; padding: 12px 24px;
+      border-radius: 50px; font-weight: 600; cursor: pointer; display: flex;
+      align-items: center; gap: 6px; transition: 0.3s; box-shadow: 0 4px 12px rgba(11,94,66,0.3);
+    }
+    .action-btn:hover { transform: translateY(-2px); background: var(--accent-hover); }
+
+    #imageInput { display: none; }
+    .vision-indicator { display: none; padding: 6px 12px; background: var(--mag-3-bg); border-radius: 20px; font-size: 12px; font-weight: bold; border: 1px solid var(--mag-3-border); animation: slideDown 0.3s ease; }
+    .mic-active { color: #ef4444 !important; animation: pulseGlow 1.5s infinite; }
+    @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 70% { box-shadow: 0 0 0 10px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+
+    /* Category Scroll */
+    .cat-scroll-container { position: relative; margin-bottom: 24px; animation: slideUp 0.7s ease; }
+    .cat-scroll {
+      display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px;
+      scroll-behavior: smooth; -webkit-overflow-scrolling: touch; cursor: grab;
+    }
+    .cat-scroll::-webkit-scrollbar { height: 6px; }
+    .cat-scroll::-webkit-scrollbar-track { background: transparent; }
+    .cat-scroll::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+    .cat-chip {
+      padding: 10px 20px; background: var(--bg-surface); border: 1px solid var(--border-color);
+      border-radius: 50px; cursor: pointer; white-space: nowrap; font-size: 14px;
+      font-weight: 600; display: flex; align-items: center; gap: 8px;
+      transition: 0.3s; box-shadow: var(--shadow-sm); user-select: none;
+    }
+    .cat-chip:hover { transform: translateY(-2px); border-color: var(--accent-primary); }
+    .cat-chip.active { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); box-shadow: 0 4px 12px rgba(11,94,66,0.3); }
+
+    /* Suggestion Grid */
+    .suggestion-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;
+    }
+    .suggestion-card {
+      width: 100%; min-height: 56px; border: 1px solid transparent; border-radius: 14px;
+      padding: 12px 14px; text-align: left; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: transform .2s, box-shadow .2s; box-shadow: var(--shadow-sm);
+      word-break: break-word;
+    }
+    .suggestion-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* Main Question Grid */
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; padding-bottom: 40px;
+    }
+    .q-card {
+      background: var(--bg-surface); padding: 20px; border-radius: 20px;
+      border: 1px solid var(--border-color); text-align: center; cursor: pointer;
+      box-shadow: var(--shadow-sm); transition: 0.3s; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px; animation: fadeInScale 0.5s ease backwards;
+    }
+    .q-card:hover {
+      transform: translateY(-6px); border-color: var(--accent-primary); box-shadow: var(--shadow-md);
+    }
+    .q-card span.material-symbols-rounded { color: var(--accent-primary); font-size: 36px; transition: transform 0.3s; }
+    .q-card:hover span.material-symbols-rounded { transform: scale(1.1); }
+
+    /* Loader */
+    .loader-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 1000;
+      display: none; flex-direction: column; justify-content: center; align-items: center; color: #fff;
+    }
+    .loader-circle {
+      width: 70px; height: 70px; border: 6px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent-primary); border-radius: 50%;
+      animation: spin 1s cubic-bezier(0.68,-0.55,0.265,1.55) infinite; margin-bottom: 24px;
+    }
+    .loader-text { font-size: 22px; font-weight: bold; margin-bottom: 12px; text-align: center; }
+    .loader-subtext { font-size: 16px; color: #cbd5e1; font-family: monospace; background: rgba(0,0,0,0.5); padding: 4px 12px; border-radius: 20px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Magazine */
+    .result-area { display: none; margin-top: 20px; padding-bottom: 60px; animation: slideUp 0.6s ease; }
+    .mag-section {
+      background: var(--bg-surface); border-radius: 20px; margin-bottom: 20px;
+      border-left: 8px solid; overflow: hidden; box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+    }
+    .mag-section:hover { transform: translateX(4px); }
+    .mag-header { padding: 16px 20px; font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .mag-body { padding: 20px; font-size: var(--mag-font-size); line-height: 1.8; }
+    .mag-body ul { margin-left: 24px; margin-top: 12px; margin-bottom: 12px; }
+    .mag-body li { margin-bottom: 8px; }
+    .arabic-text {
+      font-family: 'Scheherazade New', 'Amiri', serif; font-size: 32px; line-height: 1.8;
+      text-align: right; direction: rtl; padding: 20px; background: rgba(0,0,0,0.04);
+      border-radius: 12px; margin: 16px 0; color: var(--text-primary); border: 1px solid var(--border-color);
+    }
+
+    /* Action Bar */
+    .action-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; padding-top: 20px; border-top: 2px dashed var(--border-color); }
+    .btn-outline {
+      padding: 10px 20px; border: 2px solid var(--border-color); border-radius: 50px;
+      background: var(--bg-surface); cursor: pointer; display: inline-flex; align-items: center;
+      gap: 8px; color: var(--text-primary); font-weight: 600; transition: 0.3s;
+    }
+    .btn-outline:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); transform: translateY(-2px); }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 500;
+      display: none; justify-content: center; align-items: center; opacity: 0; transition: 0.3s;
+    }
+    .modal-overlay.show { opacity: 1; }
+    .modal-content {
+      background: var(--bg-surface); width: 92%; max-width: 500px; border-radius: 28px;
+      padding: 32px; max-height: 85vh; overflow-y: auto; position: relative;
+      transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .modal-overlay.show .modal-content { transform: scale(1); }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px; cursor: pointer;
+      background: var(--bg-main); border-radius: 50%; padding: 8px; transition: 0.2s;
+    }
+    .modal-close:hover { background: #ef4444; color: #fff; transform: rotate(90deg); }
+
+    .form-group { margin-bottom: 20px; background: var(--bg-main); padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); }
+    .form-group label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 12px; }
+    .form-input {
+      width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color);
+      background: var(--bg-surface); color: var(--text-primary); font-size: 15px; transition: 0.3s;
+    }
+    .form-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(11,94,66,0.1); }
+
+    /* Toggle Switch */
+    .toggle-container { display: flex; justify-content: space-between; align-items: center; }
+    .switch {
+      position: relative; display: inline-block; width: 50px; height: 28px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc; transition: .4s; border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px;
+      background-color: white; transition: .4s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--accent-primary); }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%);
+      background: var(--text-primary); color: var(--bg-surface); padding: 14px 28px;
+      border-radius: 50px; transition: bottom 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+      z-index: 2000; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { bottom: 32px; }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 65px;
+      background: var(--bg-surface); display: flex; justify-content: space-around;
+      align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1000;
+      border-top: 1px solid var(--border-color);
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; color: var(--text-secondary);
+      text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; flex: 1; padding: 8px 0;
+    }
+    .nav-item .material-symbols-rounded { font-size: 24px; margin-bottom: 4px; }
+    .nav-item.active { color: var(--accent-primary); }
+    .nav-item.active .material-symbols-rounded { font-variation-settings: 'FILL' 1; transform: translateY(-2px); }
+
+    /* Sidebar */
+    .sidebar-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);
+      z-index: 1999; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.show { opacity: 1; pointer-events: auto; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: var(--bg-surface);
+      z-index: 2000; transform: translateX(-100%); transition: 0.3s; box-shadow: var(--shadow-md);
+      display: flex; flex-direction: column;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sb-header { padding: 24px; background: var(--accent-primary); color: #fff; display: flex; flex-direction: column; gap: 12px; border-bottom-right-radius: 20px; }
+    .sb-content { padding: 16px; flex: 1; overflow-y: auto; }
+    .sb-item {
+      display: flex; align-items: center; gap: 16px; padding: 14px 16px; color: var(--text-primary);
+      text-decoration: none; border-radius: 12px; font-weight: 600; margin-bottom: 8px; cursor: pointer;
+    }
+    .sb-item:hover, .sb-item.active { background: var(--bg-main); color: var(--accent-primary); }
+
+    /* System panel */
+    .system-panel { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 16px; margin-top: 20px; }
+    .system-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .system-head h3 { font-size: 16px; color: var(--accent-primary); }
+    .system-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 4px 10px;
+      font-size: 12px; font-weight: 700; border: 1px solid transparent; background: var(--bg-main);
+    }
+    .status-pill.ok { color: #0f766e; border-color: #99f6e4; background: #ccfbf1; }
+    .status-pill.warn { color: #b45309; border-color: #fde68a; background: #fef3c7; }
+    .status-pill.error { color: #b91c1c; border-color: #fecaca; background: #fee2e2; }
+    [data-theme="dark"] .status-pill.ok { color: #99f6e4; border-color: #134e4a; background: #042f2e; }
+    [data-theme="dark"] .status-pill.warn { color: #fde68a; border-color: #78350f; background: #451a03; }
+    [data-theme="dark"] .status-pill.error { color: #fecaca; border-color: #7f1d1d; background: #450a0a; }
+
+    .system-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .btn-mini {
+      padding: 8px 12px; font-size: 12px; border-radius: 999px; border: 1px solid var(--border-color);
+      background: var(--bg-main); color: var(--text-primary); font-weight: 700; cursor: pointer;
+    }
+    .system-msg { font-size: 12px; color: var(--text-secondary); }
+
+    /* Namaz & Misconceptions Containers */
+    #namazArea, #misconceptionsContainer { display: none; padding-top: 16px; padding-bottom: 60px; }
+
+    /* Error message */
+    .error-msg { text-align: center; padding: 40px; color: var(--text-secondary); }
+
+    /* Desktop */
+    @media (min-width: 768px) {
+      .bottom-nav { display: none; }
+      body { padding-bottom: 0; padding-left: 260px; }
+      .sidebar { transform: translateX(0) !important; width: 260px; border-right: 1px solid var(--border-color); }
+      .sidebar-overlay { display: none !important; }
+      .menu-btn { display: none !important; }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="UI.toggleSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="logo.png" alt="Logo" style="width: 48px; height: 48px; border-radius: 12px; background: white; padding: 2px;">
+        <div><div style="font-size: 18px; font-weight: bold;">Islamic Hub</div><div style="font-size: 12px; opacity: 0.9;">v6.0 Complete</div></div>
+      </div>
+    </div>
+    <div class="sb-content">
+      <div class="sb-item active" onclick="Logic.showHomeView(); UI.toggleSidebar();"><span class="material-symbols-rounded">home</span> মূল পাতা</div>
+      <div class="sb-item" onclick="window.location.href='quran.html'"><span class="material-symbols-rounded">menu_book</span> কুরআন ও হাদিস</div>
+      <div class="sb-item" onclick="NamazModule.showNamazView(); UI.toggleSidebar();"><span class="material-symbols-rounded">self_improvement</span> নামাজ শিক্ষা</div>
+      <div class="sb-item" onclick="showMisconceptionsView(); UI.toggleSidebar();"><span class="material-symbols-rounded">error</span> ভুল ধারণা</div>
+      <div class="sb-item" onclick="UI.openModal('historyModal'); UI.toggleSidebar();"><span class="material-symbols-rounded">history</span> ইতিহাস ও বুকমার্ক</div>
+      <div class="sb-item" onclick="UI.openModal('settingsModal'); UI.toggleSidebar();"><span class="material-symbols-rounded">settings</span> সেটিংস</div>
+      <div style="height:1px; background:var(--border-color); margin:16px 0;"></div>
+      <div class="sb-item" onclick="UI.toggleTheme()"><span class="material-symbols-rounded" id="sbThemeIcon">dark_mode</span> থিম পরিবর্তন</div>
+      <!-- AI/Offline Toggle -->
+      <div style="margin:16px 0; padding:12px; background:var(--bg-main); border-radius:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:14px; font-weight:600;">অফলাইন উত্তর</span>
+          <label class="switch"><input type="checkbox" id="aiToggle"><span class="slider"></span></label>
+          <span style="font-size:14px; font-weight:600;">এআই</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary);">এআই চালু থাকলে বিস্তারিত উত্তর পাবেন</div>
+      </div>
+      <!-- System Panel -->
+      <div class="system-panel" id="systemPanel">
+        <div class="system-head"><h3>সিস্টেম কন্ট্রোল প্যানেল</h3><span id="sysLastSync" style="font-size:12px;">সিঙ্ক: -</span></div>
+        <div class="system-badges">
+          <span id="sysOnlineBadge" class="status-pill">নেটওয়ার্ক: চেকিং</span>
+          <span id="sysSwBadge" class="status-pill">অফলাইন ইঞ্জিন: চেকিং</span>
+          <span id="sysInstallBadge" class="status-pill">অ্যাপ ইনস্টল: চেকিং</span>
+          <span id="sysDataBadge" class="status-pill">ডাটা: চেকিং</span>
+        </div>
+        <div class="system-actions">
+          <button class="btn-mini" onclick="SystemHub.syncNow()"><span class="material-symbols-rounded" style="font-size:16px;">sync</span> Sync</button>
+          <button class="btn-mini" id="installAppBtn" onclick="SystemHub.installApp()"><span class="material-symbols-rounded" style="font-size:16px;">install_mobile</span> Install</button>
+          <button class="btn-mini" onclick="SystemHub.warmOffline()"><span class="material-symbols-rounded" style="font-size:16px;">download_for_offline</span> Offline</button>
+          <button class="btn-mini" onclick="SystemHub.resumeLastActivity()"><span class="material-symbols-rounded" style="font-size:16px;">resume</span> Resume</button>
+        </div>
+        <div id="sysMessage" class="system-msg">সিস্টেম প্রস্তুত হচ্ছে...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="Logic.showHomeView()"><span class="material-symbols-rounded">home</span><span>হোম</span></div>
+    <div class="nav-item" onclick="window.location.href='quran.html'"><span class="material-symbols-rounded">menu_book</span><span>কুরআন</span></div>
+    <div class="nav-item" onclick="NamazModule.showNamazView()"><span class="material-symbols-rounded">self_improvement</span><span>নামাজ</span></div>
+    <div class="nav-item" onclick="UI.openModal('historyModal')"><span class="material-symbols-rounded">bookmark</span><span>সেভড</span></div>
+    <div class="nav-item" onclick="UI.openModal('settingsModal')"><span class="material-symbols-rounded">settings</span><span>সেটিংস</span></div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <button class="icon-btn menu-btn" onclick="UI.toggleSidebar()"><span class="material-symbols-rounded">menu</span></button>
+        <span class="material-symbols-rounded" style="color:var(--accent-primary);">mosque</span>
+        <span>ইসলামিক জ্ঞান</span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="icon-btn" onclick="window.location.href='quran.html'"><span class="material-symbols-rounded" style="color:#64b5f6;">menu_book</span></button>
+        <button class="icon-btn" onclick="UI.toggleTheme()"><span class="material-symbols-rounded" id="themeIcon">dark_mode</span></button>
+      </div>
+    </header>
+
+    <!-- Search & Vision -->
+    <div style="text-align:center; margin-bottom:32px;">
+      <p style="color: var(--text-secondary); margin-bottom:16px; font-size:15px;">প্রশ্ন করুন, দলিলভিত্তিক উত্তর জানুন</p>
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" class="search-input" placeholder="আপনার প্রশ্ন লিখুন..." autocomplete="off">
+        <div id="visionIndicator" class="vision-indicator">📷 ছবি যুক্ত</div>
+        <button class="icon-btn" onclick="document.getElementById('imageInput').click()"><span class="material-symbols-rounded">add_a_photo</span></button>
+        <input type="file" id="imageInput" accept="image/*" onchange="VisionProcessor.handleImage(event)">
+        <button class="icon-btn" id="micBtn" onclick="AIEngine.startVoice()"><span class="material-symbols-rounded">mic</span></button>
+        <button class="action-btn" onclick="Logic.handleSearch()"><span class="material-symbols-rounded">search</span> খুঁজুন</button>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="cat-scroll-container"><div class="cat-scroll" id="catContainer"></div></div>
+
+    <!-- Question Grid (Home) -->
+    <div class="grid" id="qContainer"></div>
+
+    <!-- Namaz Area -->
+    <div class="result-area" id="namazArea">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <button class="btn-outline" onclick="Logic.goBack()"><span class="material-symbols-rounded">arrow_back</span> ফিরে যান</button>
+        <span style="font-size:20px; font-weight:800; color:var(--accent-primary); display:flex; align-items:center; gap:8px;"><span class="material-symbols-rounded">mosque</span> নামাজ শিক্ষা</span>
+      </div>
+      <div class="grid" id="namazListContainer"></div>
+      <div id="namazDetailContainer" style="display:none;"></div>
+    </div>
+
+    <!-- Misconceptions Container -->
+    <div id="misconceptionsContainer" class="container" style="display:none; padding:20px 0;"></div>
+
+    <!-- Result Area (Magazine) -->
+    <div class="result-area" id="resultArea">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <button class="btn-outline" onclick="Logic.goBack()"><span class="material-symbols-rounded">arrow_back</span> ফিরে যান</button>
+        <div style="display:flex; gap:8px; background:var(--bg-surface); padding:4px 12px; border-radius:50px; border:1px solid var(--border-color);">
+          <span style="font-size:13px; font-weight:bold;">ফন্ট:</span>
+          <button class="icon-btn" style="padding:4px;" onclick="UI.changeFontSize(-1)"><span class="material-symbols-rounded" style="font-size:20px;">text_decrease</span></button>
+          <button class="icon-btn" style="padding:4px;" onclick="UI.changeFontSize(1)"><span class="material-symbols-rounded" style="font-size:20px;">text_increase</span></button>
+        </div>
+      </div>
+      <div style="font-size:26px; font-weight:800; margin-bottom:24px; color:var(--accent-primary);" id="resQuestionTitle"></div>
+      <div id="magazineContent"></div>
+
+      <!-- Suggestions -->
+      <div style="margin-top:32px; background:var(--bg-surface); padding:20px; border-radius:20px; border:1px solid var(--border-color);">
+        <h3 style="font-size:16px; color:var(--text-secondary); margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+          <span class="material-symbols-rounded">lightbulb</span> সম্পর্কিত আরো প্রশ্ন:
+        </h3>
+        <div id="suggestionChips" class="suggestion-grid"></div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <button class="btn-outline" onclick="Logic.copyAns()"><span class="material-symbols-rounded">content_copy</span> কপি</button>
+        <button class="btn-outline" onclick="Logic.shareAns()"><span class="material-symbols-rounded">share</span> শেয়ার</button>
+        <button class="btn-outline" onclick="Logic.downloadAns()"><span class="material-symbols-rounded">download</span> ডাউনলোড</button>
+        <button class="btn-outline" id="speakBtn" onclick="Logic.speakAns()"><span class="material-symbols-rounded">volume_up</span> শুনুন</button>
+        <button class="btn-outline" onclick="Logic.saveBookmark()"><span class="material-symbols-rounded">bookmark_add</span> সেভ</button>
+        <button class="btn-outline" id="expandOfflineBtn" onclick="Logic.expandOfflineAnswer()" style="display:none; border-color:#2563eb; color:#2563eb;"><span class="material-symbols-rounded">smart_toy</span> AI বিস্তারিত</button>
+        <button class="btn-outline" id="verifyBtn" onclick="Logic.verifyAns()" style="border-color:#f06292; color:#f06292;"><span class="material-symbols-rounded">verified</span> যাচাই</button>
+        <span style="font-size:13px; color:var(--text-secondary); align-self:center; background:var(--bg-main); padding:4px 10px; border-radius:20px;" id="aiStats"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div class="loader-overlay" id="loader"><div class="loader-circle"></div><div class="loader-text" id="loaderText">অপেক্ষা করুন...</div><div class="loader-subtext" id="loaderSubText">0.0s</div><div id="loaderQuote" style="margin-top:24px; font-size:15px; color:#a7f3d0; font-style:italic; text-align:center; max-width:80%;"></div></div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="UI.closeModal('settingsModal')"><span class="material-symbols-rounded">close</span></button>
+      <h2 style="margin-bottom:24px; display:flex; align-items:center; gap:8px;"><span class="material-symbols-rounded">tune</span> সেটিংস ও API</h2>
+      <div class="form-group toggle-container">
+        <div><label>প্যারালাল এক্সিকিউশন</label><span style="font-size:12px; color:var(--text-secondary); display:block;">৩টি API একসাথে কল হবে</span></div>
+        <label class="switch"><input type="checkbox" id="parallelToggle"><span class="slider"></span></label>
+      </div>
+      <div class="form-group"><label>Google Gemini</label><input type="password" id="geminiKey" class="form-input" placeholder="API Key"><input type="text" id="geminiModel" class="form-input" value="gemini-1.5-flash"></div>
+      <div class="form-group"><label>OpenRouter</label><input type="password" id="orKey" class="form-input" placeholder="API Key"><input type="text" id="orModel" class="form-input" value="deepseek/deepseek-chat"></div>
+      <div class="form-group"><label>Grok / xAI</label><input type="password" id="grokKey" class="form-input" placeholder="API Key"><input type="text" id="grokModel" class="form-input" value="grok-1"></div>
+      <div style="display:flex; gap:12px;"><button class="btn-outline" style="flex:1; color:#ef4444; border-color:#ef4444;" onclick="StorageEngine.clearCache()">ক্যাশ মুছুন</button><button class="action-btn" style="flex:2;" onclick="StorageEngine.saveSettings()">সংরক্ষণ করুন</button></div>
+    </div>
+  </div>
+
+  <!-- History Modal (includes both history and bookmarks) -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="UI.closeModal('historyModal')"><span class="material-symbols-rounded">close</span></button>
+      <h2 style="margin-bottom:24px;">ইতিহাস ও বুকমার্ক</h2>
+      <div style="display:flex; gap:12px; margin-bottom:20px;">
+        <button class="btn-outline" style="flex:1;" onclick="UI.renderHistory('history')">ইতিহাস</button>
+        <button class="btn-outline" style="flex:1;" onclick="UI.renderHistory('bookmark')">বুকমার্ক</button>
+      </div>
+      <div id="historyList" style="max-height:400px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><span class="material-symbols-rounded">info</span> <span id="toastMsg">বার্তা</span></div>
+
+  <!-- ================== MAIN APPLICATION SCRIPT ================== -->
+  <script>
+    // ========== DATA MODULE (loads ans.json and question.json) ==========
+    const DataModule = (function() {
+      let categories = [];
+      let questions = [];
+      let questionMap = {};
+      let lastLoadedAt = null;
+
+      const loadData = async () => {
+        const safeLoad = async (file) => {
+          try {
+            const res = await fetch(file);
+            return res.ok ? await res.json() : null;
+          } catch {
+            return null;
+          }
+        };
+
+        const [ans, question] = await Promise.all([
+          safeLoad('ans.json'),
+          safeLoad('question.json')
+        ]);
+
+        window.IslamicData = ans || {};
+        window.QuestionData = question || {};
+
+        categories = [];
+        questions = [];
+        questionMap = {};
+
+        // Always add 'all' category
+        categories.push({ id: 'all', name: 'সব', icon: 'apps', color: '#6366f1' });
+
+        // Process ans.json (has answers)
+        if (ans) {
+          for (let catId in ans) {
+            const cat = ans[catId];
+            if (cat && typeof cat === 'object' && cat.questions) {
+              categories.push({
+                id: catId,
+                name: cat.name || catId,
+                icon: cat.icon || 'help',
+                color: cat.color || '#10b981'
+              });
+              cat.questions.forEach(q => {
+                if (q && q.q) {
+                  questions.push({ q: q.q, c: catId, a: q.a, ref: q.ref });
+                  questionMap[q.q] = { a: q.a, ref: q.ref };
+                }
+              });
+            }
+          }
+        }
+
+        // Process question.json (only questions, no answers)
+        if (question) {
+          for (let catId in question) {
+            const cat = question[catId];
+            if (cat && typeof cat === 'object' && cat.questions) {
+              // If category not already added from ans, add it
+              if (!categories.some(c => c.id === catId)) {
+                categories.push({
+                  id: catId,
+                  name: cat.name || catId,
+                  icon: cat.icon || 'help',
+                  color: cat.color || '#10b981'
+                });
+              }
+              cat.questions.forEach(qText => {
+                if (qText && typeof qText === 'string') {
+                  // Avoid duplicates if same question already in ans
+                  if (!questionMap[qText]) {
+                    questions.push({ q: qText, c: catId, a: null, ref: null });
+                    questionMap[qText] = { a: null, ref: null };
+                  }
+                }
+              });
+            }
+          }
+        }
+
+        lastLoadedAt = Date.now();
+        SystemHub?.refreshStatus();
+      };
+
+      return { categories, questions, questionMap, lastLoadedAt, loadData };
+    })();
+
+    // ========== STORAGE ENGINE (IndexedDB + localStorage) ==========
+    const StorageEngine = (function() {
+      let db;
+      const DB_NAME = 'IslamicKnowledgeV4';
+
+      const init = async () => {
+        return new Promise((resolve) => {
+          const req = indexedDB.open(DB_NAME, 2);
+          req.onupgradeneeded = e => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('cache')) db.createObjectStore('cache', { keyPath: 'q' });
+            if (!db.objectStoreNames.contains('state')) db.createObjectStore('state', { keyPath: 'key' });
+          };
+          req.onsuccess = e => { db = e.target.result; resolve(); };
+          req.onerror = () => resolve();
+        });
+      };
+
+      const getCache = async (q) => {
+        if (!db) await init();
+        return new Promise(r => {
+          const tx = db.transaction('cache', 'readonly');
+          const req = tx.objectStore('cache').get(q);
+          req.onsuccess = () => r(req.result ? req.result.a : null);
+          req.onerror = () => r(null);
+        });
+      };
+
+      const setCache = async (q, a) => {
+        if (!db) await init();
+        db.transaction('cache', 'readwrite').objectStore('cache').put({ q, a, ts: Date.now() });
+      };
+
+      const getState = async (key) => {
+        if (!db) await init();
+        return new Promise(r => {
+          const tx = db.transaction('state', 'readonly');
+          const req = tx.objectStore('state').get(key);
+          req.onsuccess = () => r(req.result ? req.result.value : null);
+          req.onerror = () => r(null);
+        });
+      };
+
+      const setState = async (key, value) => {
+        if (!db) await init();
+        db.transaction('state', 'readwrite').objectStore('state').put({ key, value, ts: Date.now() });
+      };
+
+      const saveSettings = () => {
+        ['geminiKey','geminiModel','orKey','orModel','grokKey','grokModel'].forEach(id => {
+          const val = document.getElementById(id).value.trim();
+          if (val) localStorage.setItem(id, val);
+        });
+        localStorage.setItem('parallelMode', document.getElementById('parallelToggle').checked);
+        UI.showToast('সেটিংস সংরক্ষিত');
+        UI.closeModal('settingsModal');
+      };
+
+      const loadSettings = () => {
+        ['geminiKey','geminiModel','orKey','orModel','grokKey','grokModel'].forEach(id => {
+          const val = localStorage.getItem(id);
+          if (val) document.getElementById(id).value = val;
+        });
+        document.getElementById('parallelToggle').checked = localStorage.getItem('parallelMode') === 'true';
+      };
+
+      const clearCache = async () => {
+        if (!db) await init();
+        db.transaction('cache', 'readwrite').objectStore('cache').clear();
+        UI.showToast('ক্যাশ মুছে ফেলা হয়েছে');
+      };
+
+      const getArray = (key) => JSON.parse(localStorage.getItem(key) || '[]');
+      const pushArray = (key, obj) => {
+        let arr = getArray(key);
+        if (key === 'bookmark' && arr.find(x => x.q === obj.q)) return false;
+        arr.unshift(obj);
+        if (arr.length > 50) arr.pop();
+        localStorage.setItem(key, JSON.stringify(arr));
+        return true;
+      };
+
+      return { init, getCache, setCache, getState, setState, saveSettings, loadSettings, clearCache, getArray, pushArray };
+    })();
+
+    // ========== SYSTEM HUB ==========
+    const SystemHub = (function() {
+      let deferredInstallPrompt = null;
+
+      const refreshStatus = async () => {
+        const online = navigator.onLine;
+        document.getElementById('sysOnlineBadge').textContent = online ? 'নেটওয়ার্ক: Online' : 'নেটওয়ার্ক: Offline';
+        document.getElementById('sysOnlineBadge').className = `status-pill ${online ? 'ok' : 'warn'}`;
+
+        const sw = 'serviceWorker' in navigator && (await navigator.serviceWorker.getRegistration());
+        document.getElementById('sysSwBadge').textContent = sw ? 'অফলাইন ইঞ্জিন: Active' : 'অফলাইন ইঞ্জিন: Missing';
+        document.getElementById('sysSwBadge').className = `status-pill ${sw ? 'ok' : 'error'}`;
+
+        const installed = window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone || localStorage.getItem('appInstalled') === '1';
+        document.getElementById('sysInstallBadge').textContent = installed ? 'অ্যাপ ইনস্টল: সম্পন্ন' : (deferredInstallPrompt ? 'অ্যাপ ইনস্টল: প্রস্তুত' : 'অ্যাপ ইনস্টল: ব্রাউজার সিদ্ধান্তাধীন');
+        document.getElementById('sysInstallBadge').className = `status-pill ${installed ? 'ok' : deferredInstallPrompt ? 'warn' : 'warn'}`;
+
+        const qCount = DataModule.questions.length;
+        document.getElementById('sysDataBadge').textContent = `ডাটা: ${qCount} প্রশ্ন`;
+        document.getElementById('sysDataBadge').className = `status-pill ${qCount > 0 ? 'ok' : 'error'}`;
+
+        document.getElementById('sysLastSync').textContent = `সিঙ্ক: ${DataModule.lastLoadedAt ? new Date(DataModule.lastLoadedAt).toLocaleString('bn-BD') : '-'}`;
+      };
+
+      const syncNow = async () => {
+        document.getElementById('sysMessage').textContent = 'Sync চলছে...';
+        await DataModule.loadData();
+        UI.renderCategories('all');
+        UI.renderQuestions('all');
+        await refreshStatus();
+        document.getElementById('sysMessage').textContent = 'Sync সম্পন্ন';
+      };
+
+      const warmOffline = async () => {
+        if (!('caches' in window)) return;
+        const cache = await caches.open('islamic-manual-cache-v1');
+        await cache.addAll([
+          'islamic.html',
+          'quran.html',
+          'quran-module.js',
+          'ans.json',
+          'question.json',
+          'namazshikkha.json',
+          'misconceptions.json',
+          'misconceptions-module.js',
+          'manifest.json',
+          'logo.png'
+        ]);
+        document.getElementById('sysMessage').textContent = 'Offline cache তৈরি হয়েছে';
+      };
+
+      const installApp = () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          deferredInstallPrompt.userChoice.then(() => deferredInstallPrompt = null);
+        }
+      };
+
+      const resumeLastActivity = async () => {
+        const act = await StorageEngine.getState('lastActivity');
+        if (act?.type === 'result' && act.q) {
+          Logic.ask(act.q);
+        } else if (act?.type === 'namaz') {
+          NamazModule.showNamazView(true);
+        } else {
+          Logic.showHomeView();
+        }
+      };
+
+      window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        refreshStatus();
+      });
+
+      window.addEventListener('appinstalled', () => {
+        localStorage.setItem('appInstalled', '1');
+        deferredInstallPrompt = null;
+        refreshStatus();
+      });
+
+      return { refreshStatus, syncNow, warmOffline, installApp, resumeLastActivity };
+    })();
+
+    // ========== VISION PROCESSOR ==========
+    const VisionProcessor = (function() {
+      let currentBase64 = null;
+      return {
+        handleImage: (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = e => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              let w = img.width, h = img.height;
+              if (w > 1024) { h *= 1024 / w; w = 1024; }
+              canvas.width = w; canvas.height = h;
+              ctx.drawImage(img, 0, 0, w, h);
+              currentBase64 = canvas.toDataURL('image/jpeg', 0.7).split(',')[1];
+              document.getElementById('visionIndicator').style.display = 'block';
+              UI.showToast('ছবি যুক্ত করা হয়েছে');
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        },
+        getImage: () => currentBase64,
+        clearImage: () => {
+          currentBase64 = null;
+          document.getElementById('visionIndicator').style.display = 'none';
+          document.getElementById('imageInput').value = '';
+        }
+      };
+    })();
+
+    // ========== AI ENGINE ==========
+    const AIEngine = (function() {
+      let abortController = null;
+      const promptTemplate = `তুমি একজন প্রাজ্ঞ ইসলামিক পণ্ডিত। নিচের প্রশ্নের বিস্তারিত দলিলভিত্তিক উত্তর দাও।\nপ্রশ্ন: "{q}"\nঅবশ্যই নিচের কাঠামো ব্যবহার করবে:\n**১. সারসংক্ষেপ**\n**২. বিস্তারিত ব্যাখ্যা**\n**৩. কুরআনের দলিল**\n**৪. হাদিসের দলিল**\n**৫. ইমামদের মতামত**\n**৬. ফিকহি নোট**\n**৭. আরবি উচ্চারণ**\n**৮. বাংলা অর্থ**\n**৯. English Summary**\n**১০. বাস্তব জীবনে প্রয়োগ**\n**১১. সতর্কতা**\n**১২. উপসংহার**`;
+
+      const callAPI = async (provider, q, img) => {
+        const key = localStorage.getItem(provider === 'gemini' ? 'geminiKey' : provider === 'openrouter' ? 'orKey' : 'grokKey');
+        const model = localStorage.getItem(provider === 'gemini' ? 'geminiModel' : provider === 'openrouter' ? 'orModel' : 'grokModel') || (provider === 'gemini' ? 'gemini-1.5-flash' : 'deepseek/deepseek-chat');
+        if (!key) throw new Error('API Key missing');
+
+        let url, body, headers = { 'Content-Type': 'application/json' };
+        if (provider === 'gemini') {
+          url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+          let parts = [{ text: promptTemplate.replace('{q}', q) }];
+          if (img) parts.push({ inlineData: { mimeType: 'image/jpeg', data: img } });
+          body = JSON.stringify({ contents: [{ parts }], generationConfig: { temperature: 0.2 } });
+        } else {
+          url = provider === 'openrouter' ? 'https://openrouter.ai/api/v1/chat/completions' : 'https://api.x.ai/v1/chat/completions';
+          headers['Authorization'] = `Bearer ${key}`;
+          body = JSON.stringify({ model, messages: [{ role: 'user', content: promptTemplate.replace('{q}', q) }], temperature: 0.2 });
+        }
+
+        const res = await fetch(url, { method: 'POST', headers, body, signal: abortController.signal });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        if (provider === 'gemini') return { text: data.candidates[0].content.parts[0].text, source: 'Gemini' };
+        return { text: data.choices[0].message.content, source: provider === 'openrouter' ? 'OpenRouter' : 'Grok' };
+      };
+
+      return {
+        run: async (q) => {
+          if (abortController) abortController.abort();
+          abortController = new AbortController();
+          const img = VisionProcessor.getImage();
+          const parallel = document.getElementById('parallelToggle').checked;
+          const promises = [];
+          if (localStorage.getItem('geminiKey')) promises.push(callAPI('gemini', q, img));
+          if (!img) {
+            if (localStorage.getItem('orKey')) promises.push(callAPI('openrouter', q, null));
+            if (localStorage.getItem('grokKey')) promises.push(callAPI('grok', q, null));
+          }
+          if (promises.length === 0) throw new Error('কোনো API Key দেওয়া নেই');
+          try {
+            return parallel ? await Promise.any(promises) : await callAPI('gemini', q, img);
+          } catch {
+            throw new Error('সব API ব্যর্থ');
+          }
+        },
+        startVoice: () => {
+          const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+          if (!SR) return alert('ভয়েস সমর্থিত নয়');
+          const rec = new SR();
+          rec.lang = 'bn-BD';
+          rec.onstart = () => document.getElementById('micBtn').classList.add('mic-active');
+          rec.onresult = e => {
+            document.getElementById('searchInput').value = e.results[0][0].transcript;
+            Logic.handleSearch();
+          };
+          rec.onend = () => document.getElementById('micBtn').classList.remove('mic-active');
+          rec.start();
+        }
+      };
+    })();
+
+    // ========== AUDIO MANAGER (for Quran audio) ==========
+    const AudioManager = {
+      cacheName: 'islamic-audio-cache-v1',
+      getSurahId: (name) => {
+        const n = String(name).toLowerCase();
+        const m = n.match(/\d+/);
+        return m ? parseInt(m[0], 10) : 1;
+      },
+      getCacheKey: (s, a) => `offline-audio://${s}:${a}`,
+      resolveAudioUrl: async (s, a) => {
+        try {
+          const r = await fetch(`https://api.alquran.cloud/v1/ayah/${s}:${a}/ar.alafasy`);
+          if (r.ok) {
+            const d = await r.json();
+            return d.data.audio;
+          }
+        } catch {}
+        return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${s * 1000 + a}.mp3`;
+      },
+      download: async (surah, ayah, btn) => {
+        const sid = AudioManager.getSurahId(surah), ano = parseInt(ayah, 10);
+        if (!ano) return;
+        const orig = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-rounded">hourglass_top</span> নামছে...';
+        try {
+          if (!navigator.onLine) throw new Error('offline');
+          const url = await AudioManager.resolveAudioUrl(sid, ano);
+          const res = await fetch(url);
+          if (!res.ok) throw new Error();
+          const cache = await caches.open(AudioManager.cacheName);
+          await cache.put(AudioManager.getCacheKey(sid, ano), res);
+          btn.innerHTML = '<span class="material-symbols-rounded">task_alt</span> সেভড';
+        } catch {
+          btn.innerHTML = '<span class="material-symbols-rounded">error</span> ব্যর্থ';
+        } finally {
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = orig;
+          }, 2000);
+        }
+      },
+      play: (url, btn, onEnd) => {
+        if (AudioManager.currentAudio) {
+          AudioManager.currentAudio.pause();
+          if (AudioManager.currentBtn) AudioManager.currentBtn.classList.remove('audio-playing');
+        }
+        if (url) {
+          AudioManager.currentAudio = new Audio(url);
+          AudioManager.currentAudio.play();
+          if (btn) {
+            btn.classList.add('audio-playing');
+            btn.innerHTML = '<span class="material-symbols-rounded">pause_circle</span> প্লে হচ্ছে';
+          }
+          AudioManager.currentBtn = btn;
+          AudioManager.currentAudio.onended = () => {
+            if (btn) {
+              btn.classList.remove('audio-playing');
+              btn.innerHTML = '<span class="material-symbols-rounded">play_circle</span> প্লে';
+            }
+            if (onEnd) onEnd();
+          };
+        }
+      }
+    };
+
+    // ========== CONTENT ENRICHER (adds audio buttons to Quran/Hadith refs) ==========
+    const ContentEnricher = {
+      parse: (text) => {
+        let t = text;
+        // Quran references
+        t = t.replace(/(সূরা|সুরা|Surah)\s+([^\n:।,.]{1,40}?)(?:\s*[:ঃ]\s*|\s+(?:আয়াত|আয়াত|verse)\s*)([0-9০-৯]{1,3})/gi, (m, _, s, a) => {
+          const sid = parseInt(String(a).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d)), 10);
+          return `<div class="ref-audio-card"><div class="ref-header"><span class="material-symbols-rounded">menu_book</span> ${m}</div><div class="ref-controls"><button class="embed-btn" onclick="AudioManager.play('${s}', ${sid}, this)"><span class="material-symbols-rounded">play_circle</span> শুনুন</button><button class="embed-btn" onclick="AudioManager.download('${s}', ${sid}, this)"><span class="material-symbols-rounded">download_for_offline</span> ডাউনলোড</button></div></div>`;
+        });
+        // Hadith references
+        t = t.replace(/((?:সহীহ\s*)?(?:বুখারী|মুসলিম|তিরমিজী|আবু দাউদ|নাসাঈ|ইবনে মাজাহ|মুয়াত্তা|মুসনাদ আহমদ)\s*[:：]?\s*[0-9০-৯]{1,5})/gi, m => {
+          return `<div class="ref-audio-card hadith-ref-card"><div class="ref-header"><span class="material-symbols-rounded">library_books</span> ${m}</div><div class="ref-controls"><button class="embed-btn" onclick="HadithVerifier.verifyFromString('${m.replace(/'/g, "\\'")}')"><span class="material-symbols-rounded">verified</span> যাচাই</button></div></div>`;
+        });
+        return t;
+      }
+    };
+
+    // ========== HADITH VERIFIER ==========
+    const HadithVerifier = {
+      getUrl: (book, num) => {
+        const b = book.toLowerCase();
+        let id = 'bukhari';
+        if (b.includes('মুসলিম')) id = 'muslim';
+        else if (b.includes('আবু দাউদ')) id = 'abudawud';
+        else if (b.includes('তিরমিজী')) id = 'tirmidhi';
+        else if (b.includes('নাসাঈ')) id = 'nasai';
+        else if (b.includes('ইবনে মাজাহ')) id = 'ibnmajah';
+        return `https://sunnah.com/${id}:${num}`;
+      },
+      verifyFromString: (str) => {
+        const match = str.match(/((?:সহীহ\s*)?(?:বুখারী|মুসলিম|তিরমিজী|আবু দাউদ|নাসাঈ|ইবনে মাজাহ|মুয়াত্তা|মুসনাদ আহমদ))\s*[:：]?\s*([0-9০-৯]{1,5})/i);
+        if (match) {
+          const book = match[1].trim();
+          const num = String(match[2]).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
+          window.open(HadithVerifier.getUrl(book, num), '_blank');
+        }
+      }
+    };
+
+    // ========== REFERENCE TOOLS ==========
+    const ReferenceTools = {
+      extractLines: (text, ref) => {
+        let lines = [];
+        if (ref) lines.push(`তথ্যসূত্র: ${ref}`);
+        return lines;
+      }
+    };
+
+    // ========== NAMAZ MODULE (simplified) ==========
+    const NamazModule = (function() {
+      let data = null;
+      const load = async () => {
+        if (window.NamazData) {
+          data = window.NamazData;
+          return true;
+        }
+        try {
+          const r = await fetch('namazshikkha.json');
+          data = await r.json();
+          return true;
+        } catch {
+          data = null;
+          return false;
+        }
+      };
+
+      const showNamazView = async () => {
+        document.getElementById('qContainer').style.display = 'none';
+        document.querySelector('.cat-scroll-container').style.display = 'none';
+        document.getElementById('resultArea').style.display = 'none';
+        document.getElementById('misconceptionsContainer').style.display = 'none';
+        document.getElementById('namazArea').style.display = 'block';
+        Logic.currentView = 'namaz';
+        await load();
+        renderList();
+      };
+
+      const renderList = () => {
+        const list = document.getElementById('namazListContainer');
+        if (!data) {
+          list.innerHTML = '<div class="q-card">ডেটা পাওয়া যায়নি</div>';
+          return;
+        }
+        let html = '';
+        if (data.prayers && Array.isArray(data.prayers)) {
+          data.prayers.forEach(p => {
+            html += `<div class="q-card" onclick="NamazModule.showPrayer('${p.id}')"><span class="material-symbols-rounded">schedule</span><span>${p.name_bn}</span></div>`;
+          });
+        }
+        if (data.taharat) {
+          Object.keys(data.taharat).forEach(k => {
+            const item = data.taharat[k];
+            html += `<div class="q-card" onclick="NamazModule.showTaharat('${k}')"><span class="material-symbols-rounded">water_drop</span><span>${item.name_bn || k}</span></div>`;
+          });
+        }
+        list.innerHTML = html || '<div class="q-card">কিছু নেই</div>';
+      };
+
+      const showPrayer = (id) => {
+        const p = data.prayers.find(x => x.id === id);
+        if (!p) return;
+        document.getElementById('namazListContainer').style.display = 'none';
+        document.getElementById('namazDetailContainer').style.display = 'block';
+        let detail = `<h2>${p.name_bn}</h2><p>সময়: ${p.time || '-'}</p><p>মোট রাকাত: ${p.total_rakats}</p>`;
+        if (p.notes) detail += `<p><em>${p.notes}</em></p>`;
+        document.getElementById('namazDetailContainer').innerHTML = detail;
+      };
+
+      const showTaharat = (key) => {
+        const item = data.taharat[key];
+        if (!item) return;
+        document.getElementById('namazListContainer').style.display = 'none';
+        document.getElementById('namazDetailContainer').style.display = 'block';
+        let detail = `<h2>${item.name_bn || key}</h2>`;
+        if (item.importance) detail += `<p>${item.importance}</p>`;
+        if (item.faraid) detail += `<h3>ফরজ</h3><ul>${item.faraid.map(f => `<li>${f}</li>`).join('')}</ul>`;
+        document.getElementById('namazDetailContainer').innerHTML = detail;
+      };
+
+      const backToList = () => {
+        document.getElementById('namazDetailContainer').style.display = 'none';
+        document.getElementById('namazListContainer').style.display = 'grid';
+      };
+
+      return { init: load, showNamazView, showPrayer, showTaharat, backToList };
+    })();
+
+    // ========== MISCONCEPTIONS MODULE (fallback) ==========
+    if (typeof window.MisconceptionsModule === 'undefined') {
+      window.MisconceptionsModule = {
+        init: () => {
+          document.getElementById('misconceptionsContainer').innerHTML = '<div class="error-msg">মিসকনসেপশন মডিউল লোড হয়নি</div>';
+        }
+      };
+    }
+
+    function showMisconceptionsView() {
+      document.getElementById('qContainer').style.display = 'none';
+      document.querySelector('.cat-scroll-container').style.display = 'none';
+      document.getElementById('resultArea').style.display = 'none';
+      document.getElementById('namazArea').style.display = 'none';
+      const mc = document.getElementById('misconceptionsContainer');
+      mc.style.display = 'block';
+      if (typeof window.MisconceptionsModule !== 'undefined') {
+        window.MisconceptionsModule.init();
+      }
+    }
+
+    // ========== UI ENGINE ==========
+    const UI = {
+      startGamifiedLoader: () => {
+        document.getElementById('loader').style.display = 'flex';
+        let t = 0;
+        const interval = setInterval(() => {
+          t += 0.1;
+          document.getElementById('loaderSubText').innerText = t.toFixed(1) + 's';
+        }, 100);
+        UI.loaderInterval = interval;
+      },
+      stopLoader: () => {
+        clearInterval(UI.loaderInterval);
+        document.getElementById('loader').style.display = 'none';
+      },
+      showToast: (msg) => {
+        const t = document.getElementById('toast');
+        document.getElementById('toastMsg').innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3500);
+      },
+      toggleTheme: () => {
+        const root = document.documentElement;
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        document.getElementById('themeIcon').innerText = next === 'dark' ? 'light_mode' : 'dark_mode';
+        document.getElementById('sbThemeIcon').innerText = next === 'dark' ? 'light_mode' : 'dark_mode';
+      },
+      openModal: (id) => {
+        document.getElementById(id).style.display = 'flex';
+        setTimeout(() => document.getElementById(id).classList.add('show'), 10);
+      },
+      closeModal: (id) => {
+        document.getElementById(id).classList.remove('show');
+        setTimeout(() => document.getElementById(id).style.display = 'none', 300);
+      },
+      toggleSidebar: () => {
+        const s = document.getElementById('sidebar');
+        const o = document.getElementById('sidebarOverlay');
+        s.classList.toggle('open');
+        o.classList.toggle('show');
+      },
+      renderCategories: (active) => {
+        let h = '';
+        DataModule.categories.forEach(c => {
+          h += `<div class="cat-chip ${c.id === active ? 'active' : ''}" onclick="Logic.filterCat('${c.id}')"><span>${c.icon}</span> ${c.name}</div>`;
+        });
+        document.getElementById('catContainer').innerHTML = h;
+      },
+      renderQuestions: (cat = 'all') => {
+        const filtered = cat === 'all' ? DataModule.questions.slice(0, 40) : DataModule.questions.filter(q => q.c === cat).slice(0, 40);
+        if (filtered.length === 0) {
+          document.getElementById('qContainer').innerHTML = '<div class="q-card">কোনো প্রশ্ন নেই</div>';
+          return;
+        }
+        document.getElementById('qContainer').innerHTML = filtered.map(q => {
+          return `<div class="q-card" onclick="Logic.ask('${q.q.replace(/'/g, "\\'")}')"><span class="material-symbols-rounded">help</span><span>${q.q}</span></div>`;
+        }).join('');
+      },
+      displayResult: (q, ansObj, elapsed) => {
+        document.getElementById('qContainer').style.display = 'none';
+        document.querySelector('.cat-scroll-container').style.display = 'none';
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('resQuestionTitle').innerText = q;
+        document.getElementById('magazineContent').innerHTML = ContentEnricher.parse(ansObj.text);
+        document.getElementById('aiStats').innerText = `মডেল: ${ansObj.source} | সময়: ${elapsed}s`;
+        Logic.currentAnsText = ansObj.text;
+        Logic.currentAnsSource = ansObj.source;
+        StorageEngine.setState('lastActivity', { type: 'result', q, ts: Date.now() });
+        StorageEngine.pushArray('history', { q });
+      },
+      changeFontSize: (step) => {
+        let s = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mag-font-size'));
+        s = Math.min(28, Math.max(12, s + step));
+        document.documentElement.style.setProperty('--mag-font-size', s + 'px');
+      },
+      renderHistory: (type) => {
+        const arr = StorageEngine.getArray(type);
+        document.getElementById('historyList').innerHTML = arr.map(i => {
+          return `<div class="q-card" onclick="Logic.ask('${i.q.replace(/'/g, "\\'")}'); UI.closeModal('historyModal')">${i.q}</div>`;
+        }).join('') || '<div class="error-msg">কিছু নেই</div>';
+      }
+    };
+
+    // ========== LOGIC ==========
+    const Logic = {
+      currentView: 'home',
+      currentQ: '',
+      currentAnsText: '',
+      currentAnsSource: '',
+      isSpeaking: false,
+
+      showHomeView: () => {
+        document.getElementById('resultArea').style.display = 'none';
+        document.getElementById('namazArea').style.display = 'none';
+        document.getElementById('misconceptionsContainer').style.display = 'none';
+        document.querySelector('.cat-scroll-container').style.display = 'block';
+        document.getElementById('qContainer').style.display = 'grid';
+        if (Logic.isSpeaking) Logic.stopSpeak();
+      },
+
+      filterCat: (id) => {
+        UI.renderCategories(id);
+        UI.renderQuestions(id);
+        Logic.showHomeView();
+      },
+
+      handleSearch: () => {
+        const q = document.getElementById('searchInput').value.trim();
+        if (q) Logic.ask(q);
+      },
+
+      ask: async (q) => {
+        Logic.currentQ = q;
+        document.getElementById('searchInput').value = q;
+        const askAI = document.getElementById('aiToggle').checked;
+
+        // Try offline answer first (if AI toggle is off)
+        if (!askAI && !VisionProcessor.getImage()) {
+          const off = DataModule.questionMap[q];
+          if (off && off.a) {
+            UI.displayResult(q, { text: off.a + (off.ref ? `\n\n**তথ্যসূত্র:** ${off.ref}` : ''), source: 'অফলাইন' }, '0.0');
+            return;
+          }
+        }
+
+        // Check cache (if no image)
+        if (!VisionProcessor.getImage()) {
+          const cached = await StorageEngine.getCache(q);
+          if (cached) {
+            UI.displayResult(q, { text: cached, source: 'Cache' }, '0.1');
+            return;
+          }
+        }
+
+        UI.startGamifiedLoader();
+        const start = Date.now();
+        try {
+          const ans = await AIEngine.run(q);
+          const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+          if (!VisionProcessor.getImage()) await StorageEngine.setCache(q, ans.text);
+          UI.displayResult(q, ans, elapsed);
+          VisionProcessor.clearImage();
+        } catch (e) {
+          UI.showToast(e.message);
+        } finally {
+          UI.stopLoader();
+        }
+      },
+
+      copyAns: () => {
+        navigator.clipboard.writeText(Logic.currentAnsText.replace(/<[^>]*>/g, ''));
+        UI.showToast('কপি করা হয়েছে');
+      },
+
+      shareAns: () => {
+        alert('শেয়ার ফিচার সক্রিয়');
+      },
+
+      downloadAns: () => {
+        alert('ডাউনলোড ফিচার সক্রিয়');
+      },
+
+      speakAns: () => {
+        if (Logic.isSpeaking) {
+          if (typeof responsiveVoice !== 'undefined') responsiveVoice.cancel();
+          if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+          Logic.isSpeaking = false;
+          document.getElementById('speakBtn').innerHTML = '<span class="material-symbols-rounded">volume_up</span> শুনুন';
+          return;
+        }
+        const t = Logic.currentAnsText.replace(/<[^>]*>/g, '').substring(0, 1500);
+        if (typeof responsiveVoice !== 'undefined') {
+          responsiveVoice.speak(t, "Bengali Female", { rate: 0.9, onend: () => Logic.isSpeaking = false });
+          Logic.isSpeaking = true;
+          document.getElementById('speakBtn').innerHTML = '<span class="material-symbols-rounded">stop_circle</span> থামুন';
+        } else if ('speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance(t);
+          u.lang = 'bn-BD';
+          u.rate = 0.9;
+          u.onend = () => Logic.isSpeaking = false;
+          window.speechSynthesis.speak(u);
+          Logic.isSpeaking = true;
+          document.getElementById('speakBtn').innerHTML = '<span class="material-symbols-rounded">stop_circle</span> থামুন';
+        }
+      },
+
+      stopSpeak: () => {
+        if (typeof responsiveVoice !== 'undefined') responsiveVoice.cancel();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        Logic.isSpeaking = false;
+        document.getElementById('speakBtn').innerHTML = '<span class="material-symbols-rounded">volume_up</span> শুনুন';
+      },
+
+      saveBookmark: () => {
+        if (Logic.currentQ) {
+          StorageEngine.pushArray('bookmark', { q: Logic.currentQ });
+          UI.showToast('বুকমার্কে সংরক্ষিত');
+        }
+      },
+
+      expandOfflineAnswer: () => {
+        alert('AI expand (will call AIEngine)');
+      },
+
+      verifyAns: () => {
+        alert('যাচাই ফিচার সক্রিয়');
+      },
+
+      goBack: () => {
+        if (Logic.currentView !== 'home') {
+          Logic.showHomeView();
+        } else {
+          history.back();
+        }
+      }
+    };
+
+    // ========== INIT ==========
+    window.onload = async () => {
+      UI.startGamifiedLoader();
+      document.getElementById('loaderText').innerText = 'ডেটা লোড হচ্ছে...';
+
+      try {
+        await DataModule.loadData();
+        await StorageEngine.init();
+        StorageEngine.loadSettings();
+
+        UI.renderCategories('all');
+        UI.renderQuestions('all');
+
+        await SystemHub.refreshStatus();
+      } catch (e) {
+        console.error('Initialization error:', e);
+        UI.showToast('প্রাথমিক লোডে সমস্যা হয়েছে');
+      } finally {
+        UI.stopLoader();
+      }
+
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('themeIcon').innerText = 'light_mode';
+        document.getElementById('sbThemeIcon').innerText = 'light_mode';
+      }
+
+      history.replaceState({ view: 'home' }, '');
+      window.addEventListener('popstate', (e) => {
+        if (!e.state || e.state.view === 'home') Logic.showHomeView();
+      });
+    };
+
+    // Expose globals
+    window.DataModule = DataModule;
+    window.StorageEngine = StorageEngine;
+    window.SystemHub = SystemHub;
+    window.VisionProcessor = VisionProcessor;
+    window.AIEngine = AIEngine;
+    window.AudioManager = AudioManager;
+    window.ContentEnricher = ContentEnricher;
+    window.HadithVerifier = HadithVerifier;
+    window.ReferenceTools = ReferenceTools;
+    window.NamazModule = NamazModule;
+    window.Logic = Logic;
+    window.UI = UI;
+    window.showMisconceptionsView = showMisconceptionsView;
+  </script>
+</body>
+</html>
